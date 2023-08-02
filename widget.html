@@ -1,0 +1,15 @@
+<div fxFlex fxLayout="column" style="height: 100%;" fxLayoutAlign="center stretch">
+    <div fxFlex fxLayout="row" *ngFor="let dataKeyData of data" fxLayoutAlign="space-around center">
+        <div>{{dataKeyData.dataKey.label}}:</div>
+        <div>{{(dataKeyData.data[dataKeyData.data.length - 1] && dataKeyData.data[dataKeyData.data.length - 1][0]) | date : 'yyyy-MM-dd HH:mm:ss' }}</div>
+        <div>{{dataKeyData.data[dataKeyData.data.length - 1] && dataKeyData.data[dataKeyData.data.length - 1][1]}}</div>
+    </div>
+    <div class="circle">
+        <div class="icon">
+            HOME
+        </div>
+        <div class="usage" ngFor="test1">
+            {{test1}}
+        </div>
+    </div>
+</div>
