@@ -1,2 +1,3 @@
-# iris-energy-widget
+# Iris energy widget
+
 Energy widget for IRIS 
