@@ -1,10 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.master {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    padding: 30px;
+}
+
+.flowchart {
+    position: relative;
+}
+
+.wrapper {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-wrapper {
+    bottom: 0;
+    right: 0;
+}
+
+.grid-wrapper {
+    bottom: 0;
+    left: 0;
+}
+
+.carbon-wrapper {
+    top: 0;
+    left: 0;
+}
+
 .circle {
     width: 100px;
-    height: 100px;
+    aspect-ratio: 1;
     border-radius: 50%;
-    border: solid 1px green;
+    border: solid 4px green;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.home-usage,
+.exported-usage,
+.imported-usage,
+.carbon-usage {
+    color: white;
+}
+
+.icon {
+    font-size: 22px;
+}
+
+.grid {
+    border: solid 4px rgb(35, 35, 255);
+}
+
+.usage,
+.home-usage,
+.carbon-usage {
+    font-size: 12px;
+}
+
+.exported,
+.imported {
+    display: flex;
+    align-items: center;
+}
+
+.exported-usage {
+    color: rgb(35, 35, 255);
+}
+
+.exported svg {
+    fill: rgb(35, 35, 255);
+    margin-right: 4px;
+}
+
+.imported-usage {
+    color: rgb(100, 100, 255);
+}
+
+.imported svg {
+    fill: rgb(100, 100, 255);
+    margin-right: 4px;
+}
+
+.home,
+.grid {
+    fill: white;
+}
+
+.carbon {
+    fill: green;
 }
