@@ -2,19 +2,27 @@ self.onInit = function() {
     // Define a constructor function
     self.ctx.$scope.DataPoint = function(dataPoint) {
         this.dataPoint = dataPoint;
+        this.label = this.dataPoint.dataKey.label;
+    }
+    self.ctx.$scope.DataPoint.prototype.__findDataKey = function() {
+        let dataKey;
+    
+        for (const [index, dataKeys] of Object.entries(this.dataPoint.datasource.dataKeys)) {
+            if (dataKeys.name === this.label) {
+                dataKey = dataKeys;
+            }
+        }
+        
+        return dataKey
     }
     self.ctx.$scope.DataPoint.prototype.value = function() {
         return this.dataPoint.data[0][1];
     }
     self.ctx.$scope.DataPoint.prototype.unit = function() {
-        let dataKey;
+        const dataKey = this.__findDataKey();
+        console.log(this.label, dataKey)
         
-        for (const [index, dataKeys] of Object.entries(this.dataPoint.datasource.dataKeys)) {
-            if (dataKeys.name === this.dataPoint.dataKey.name) {
-                dataKey = dataKeys;
-            }
-        }
-        return dataKey[1].unit === undefined ? "" : dataKey[1].unit;
+        return dataKey.units === undefined ? "" : dataKey.units;
     }
     
     self.ctx.$scope.setFlowChartSize = function() {
@@ -36,7 +44,7 @@ self.onDataUpdated = function() {
     function homeDiv(dataPoint) {
         const dataMap = new self.ctx.$scope.DataPoint(dataPoint)
         
-        const homeUsageDiv = self.ctx.$container.find('.circle.home .home-usage');
+        const homeUsageDiv = self.ctx.$container.find('.home-usage');
         const value = dataMap.value();
         const unit = dataMap.unit();
         homeUsageDiv.html(`${value} ${unit}`);
@@ -44,22 +52,22 @@ self.onDataUpdated = function() {
     
     function gridDiv(dataPointExp, dataPointImp) {
         const dataMapExp = new self.ctx.$scope.DataPoint(dataPointExp)
-        const exportedUsageDiv = self.ctx.$container.find('.circle.grid .usage .exported .exported-usage');
+        const exportedUsageDiv = self.ctx.$container.find('.exported-usage');
         const expValue = dataMapExp.value();
-        const expUnit = dataMap.unit();
+        const expUnit = dataMapExp.unit();
         exportedUsageDiv.html(`${expValue} ${expUnit}`);
         
         const dataMapImp = new self.ctx.$scope.DataPoint(dataPointImp)
-        const importedUsageDiv = self.ctx.$container.find('.circle.grid .usage .imported .imported-usage');
+        const importedUsageDiv = self.ctx.$container.find('.imported-usage');
         const impValue = dataMapImp.value();
-        const impUnit = dataMap.unit();
+        const impUnit = dataMapImp.unit();
         importedUsageDiv.html(`${impValue} ${impUnit}`);
     }
     
     function carbonDiv(dataPoint) {
         const dataMap = new self.ctx.$scope.DataPoint(dataPoint)
         
-        const carbonUsageDiv = self.ctx.$container.find('.circle.carbon .carbon-usage');
+        const carbonUsageDiv = self.ctx.$container.find('.carbon-usage');
         const value = dataMap.value();
         const unit = dataMap.unit();
         carbonUsageDiv.html(`${value} ${unit}`);
@@ -83,7 +91,6 @@ self.onDataUpdated = function() {
     }
     
     useData(function(dataPoints) {
-        console.log(dataPoints)
         carbonDiv(dataPoints[0]);
         gridDiv(dataPoints[1], dataPoints[2]);
         homeDiv(dataPoints[0]);

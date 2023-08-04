@@ -4,6 +4,8 @@
     box-sizing: border-box;
 }
 
+/* GENERIC START */
+
 .master {
     position: relative;
     width: 100%;
@@ -18,20 +20,23 @@
 
 .wrapper {
     position: absolute;
-    width: 50%;
-    height: 50%;
+    width: calc( 100% / 3 );
+    height: calc( 100% / 3 );
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* GENERIC END */
+
+/* WRAPPER POSITIONING START */
 .home-wrapper {
-    bottom: 0;
+    top: calc( 100% / 3 );
     right: 0;
 }
 
 .grid-wrapper {
-    bottom: 0;
+    top: calc( 100% / 3 );
     left: 0;
 }
 
@@ -40,35 +45,101 @@
     left: 0;
 }
 
+.solar-wrapper {
+    top: 0;
+    left: calc( 100% / 3 );
+}
+
+.gas-wrapper {
+    top: 0;
+    right: 0;
+}
+
+.water-wrapper {
+    bottom: 0;
+    right: 0;
+}
+
+.battery-wrapper {
+    bottom: 0;
+    left: calc( 100% / 3 );
+}
+
+/* WRAPPER POSITIONING END */
+
+/* CIRCLES START */
+
 .circle {
-    width: 100px;
+    position: relative;
+    width: 60%;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: solid 4px green;
+    border: solid 4px white;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.home-usage,
-.exported-usage,
-.imported-usage,
-.carbon-usage {
-    color: white;
-}
+/* CIRCLES END */
 
-.icon {
-    font-size: 22px;
+/* BORDER COLOR START */
+
+.home {
+    border-color: white;
 }
 
 .grid {
-    border: solid 4px rgb(35, 35, 255);
+    border-color: rgb(35, 35, 255);
 }
 
-.usage,
-.home-usage,
-.carbon-usage {
+.carbon {
+    border-color: green;
+}
+
+.solar {
+    border-color: yellow;
+}
+
+.gas {
+    border-color: rgb(36, 36, 36);
+}
+
+.water {
+    border-color: rgb(127, 199, 223);
+}
+
+.battery {
+    border-color: grey;
+}
+
+/* BORDER COLOR END */
+
+/* USAGE START */
+
+.usage {
+    color: white;
+    font-size: 12px;
+}
+
+/* USAGE END */
+
+/* MAIN ICONS START */
+
+.icon {
+    font-size: 22px;
+    fill: white;
+}
+
+.carbon .icon {
+    fill: green;
+}
+
+/* MAIN ICONS END */
+
+/* EXPORTED AND IMPORTED SPECIAL CSS START */
+
+.inner-icon {
     font-size: 12px;
 }
 
@@ -96,11 +167,4 @@
     margin-right: 4px;
 }
 
-.home,
-.grid {
-    fill: white;
-}
-
-.carbon {
-    fill: green;
-}
+/* EXPORTED AND IMPORTED SPECIAL CSS END */
