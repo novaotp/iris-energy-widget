@@ -1,11 +1,9 @@
-/**
- * Encapsulates reusable data and provides methods for displaying the data.
- */
+/** Encapsulates reusable data and provides methods for displaying the data. */
 class DataPoint {
-    constructor(dataPoint, usageClass, wrapperClass) {
+    constructor(dataPoint, wrapperClass) {
+        this.container = self.ctx.$container;
         this.dataPoint = dataPoint;
-        this.usageDiv = self.ctx.$container.find(usageClass);
-        this.wrapperDiv = self.ctx.$container.find(wrapperClass);
+        this.wrapperClass = wrapperClass;
         this.label = this.dataPoint.dataKey.label;
     }
 
@@ -16,22 +14,12 @@ class DataPoint {
     }
 
     /** Retrieve the DataKey by the label name. */
-    __findDataKey() {
-        let dataKey;
-
-        for (const dataKeys of Object.values(this.dataPoint.datasource.dataKeys)) {
-            if (dataKeys.name === this.label) {
-                dataKey = dataKeys;
-            }
-        }
-
-        return dataKey
-    }
+    __findDataKey() { return Object.values(this.dataPoint.datasource.dataKeys).find(dataKey => dataKey.name === this.label); }
 
     /** Determine the precision for the value. */
     __precision() {
-        const dataKey = this.__findDataKey();
-        return (dataKey && dataKey.decimals) || undefined;
+        const { decimals } = this.__findDataKey() || {};
+        return decimals || undefined;
     }
 
     /** Get the actual value, considering its type and necessary precision. */
@@ -53,18 +41,18 @@ class DataPoint {
 
     /** Get the associated unit for the value. */
     __unit() {
-        const dataKey = this.__findDataKey();
-        return (dataKey && dataKey.units) || "";
+        const { units } = this.__findDataKey() || {};
+        return units || "";
     }
 
     /** Display the wrapperDiv. */
     __showHTML() {
-        this.wrapperDiv.css("display", "flex");
+        this.container.find(`.${this.wrapperClass}`).css("display", "flex");
     }
 
     /** Set the data usage in the designated Div. */
     __setUsage() {
-        this.usageDiv.html(`${this.__value()} ${this.__unit()}`);
+        this.container.find(`.${this.wrapperClass} .usage`).html(`${this.__value()} ${this.__unit()}`);
     }
 }
 
@@ -99,42 +87,42 @@ function resize() {
 }
 
 function home(dataPoint) {
-    const dataMap = new DataPoint(dataPoint, '.home-usage', '.home-wrapper')
+    const dataMap = new DataPoint(dataPoint, 'home-wrapper')
     dataMap.init();
 }
 
 function grid(dataPointExp, dataPointImp) {
     if (dataPointExp !== undefined) {
-        const dataMapExp = new DataPoint(dataPointExp, '.exported-usage', '.exported')
+        const dataMapExp = new DataPoint(dataPointExp, 'exported')
         dataMapExp.init();
     }
 
-    const dataMapImp = new DataPoint(dataPointImp, '.imported-usage', '.imported')
+    const dataMapImp = new DataPoint(dataPointImp, 'imported')
     dataMapImp.init();
 }
 
 function carbon(dataPoint) {
-    const dataMap = new DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')
+    const dataMap = new DataPoint(dataPoint, 'carbon-wrapper')
     dataMap.init();
 }
 
 function solar(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')
+        const dataMap = new DataPoint(dataPoint, 'solar-wrapper')
         dataMap.init();
     }
 }
 
 function gas(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')
+        const dataMap = new DataPoint(dataPoint, 'gas-wrapper')
         dataMap.init();
     }
 }
 
 function water(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.water-usage', '.water-wrapper')
+        const dataMap = new DataPoint(dataPoint, 'water-wrapper')
         dataMap.init();
     }
 }
@@ -144,17 +132,17 @@ function battery(dataPointPercent, dataPointCharging, dataPointDischarging) {
         self.ctx.$container.find('.battery-wrapper').css("display", "flex");
 
         if (dataPointPercent !== undefined) {
-            const dataMapPercent = new DataPoint(dataPointPercent, '.percent-usage', '.percent')
+            const dataMapPercent = new DataPoint(dataPointPercent, 'percent')
             dataMapPercent.init();
         }
 
         if (dataPointCharging !== undefined) {
-            const dataMapCharging = new DataPoint(dataPointCharging, '.charging-usage', '.charging')
+            const dataMapCharging = new DataPoint(dataPointCharging, 'charging')
             dataMapCharging.init();
         }
 
         if (dataPointDischarging !== undefined) {
-            const dataMapDischarging = new DataPoint(dataPointDischarging, '.discharging-usage', '.discharging')
+            const dataMapDischarging = new DataPoint(dataPointDischarging, 'discharging')
             dataMapDischarging.init();
         }
     }
@@ -199,6 +187,7 @@ async function useData() {
         self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
     }
 
+    // Col2 control
     if (dataPoints['ENRTOTPROD'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
         const flowchart = self.ctx.$container.find('.flowchart');
         self.ctx.$container.find('.wrapper').css("width", `${flowchart.width() / 2}px`);
