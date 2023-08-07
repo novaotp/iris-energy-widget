@@ -2,29 +2,44 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    --bg-color: white;
+    --icon-fill-color: black;
+    --text-color: black;
 }
-
-/* GENERIC START */
 
 .master {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--bg-color);
     padding: 30px;
 }
 
+/* ---- FLOWCHART START ---- */
+
+/* GENERIC START */
+
 .flowchart {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .wrapper {
     position: absolute;
     width: calc( 100% / 3 );
     height: calc( 100% / 3 );
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
+}
+
+.grid-wrapper {
+    display: flex;
+}
+
+.inner-wrapper {
+    display: none;
 }
 
 /* GENERIC END */
@@ -71,7 +86,7 @@
 
 .circle {
     position: relative;
-    width: 60%;
+    background-color: var(--bg-color);
     aspect-ratio: 1;
     border-radius: 50%;
     border: solid 4px white;
@@ -79,6 +94,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 2;
 }
 
 /* CIRCLES END */
@@ -86,7 +102,7 @@
 /* BORDER COLOR START */
 
 .home {
-    border-color: white;
+    border-color: black;
 }
 
 .grid {
@@ -98,7 +114,7 @@
 }
 
 .solar {
-    border-color: yellow;
+    border-color: rgb(255, 199, 96);
 }
 
 .gas {
@@ -118,7 +134,7 @@
 /* USAGE START */
 
 .usage {
-    color: white;
+    color: var(--text-color);
     font-size: 12px;
 }
 
@@ -127,8 +143,9 @@
 /* MAIN ICONS START */
 
 .icon {
-    font-size: 22px;
-    fill: white;
+    position: relative;
+    width: calc(100% / 4);
+    fill: var(--icon-fill-color);
 }
 
 .carbon .icon {
@@ -168,3 +185,25 @@
 }
 
 /* EXPORTED AND IMPORTED SPECIAL CSS END */
+
+/* ---- FLOWCHART END ---- */
+
+/* ---- SVG BACKGROUND START ---- */
+
+.svg-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 30px;
+    left: 30px;
+}
+
+.svg-path {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* ---- SVG BACKGROUND END ---- */

@@ -2,6 +2,10 @@
 
 Energy widget for IRIS 
 
-## Documentation
+## DataPoints
 
-Sera ajouté dans le futur
+Vous trouverez les informations sur les datapoints [ici](./docs/datapoints.md).
+
+## Thingsboard
+
+Vous trouverez la documentation de Thingsboard [ici](./docs/thingsboard.md).
