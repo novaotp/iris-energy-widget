@@ -1,23 +1,26 @@
-self.onInit = function() {
-    /* ----- DATACLASS START ----- */
-
-    /**
-     * Classe DataPoint permettant d'encapsuler les données réutilisables.
-     * 
-     * @param dataPoint Map contenant toutes les données obtenues via le defaultSubscription.
-     * @param usageClass Le nom de la classe html à utiliser pour modifier le innerHTML directement.
-     */
-    self.ctx.$scope.DataPoint = function(dataPoint, usageClass, wrapperClass) {
+/**
+ * Encapsulates reusable data and provides methods for displaying the data.
+ */
+class DataPoint {
+    constructor(dataPoint, usageClass, wrapperClass) {
         this.dataPoint = dataPoint;
         this.usageDiv = self.ctx.$container.find(usageClass);
         this.wrapperDiv = self.ctx.$container.find(wrapperClass);
         this.label = this.dataPoint.dataKey.label;
     }
-    self.ctx.$scope.DataPoint.prototype.init = function() {
+
+    /** 
+     * Initialize the display.
+     */
+    init() {
         this.__showHTML();
         this.__setUsage();
     }
-    self.ctx.$scope.DataPoint.prototype.__findDataKey = function() {
+
+    /** 
+     * Retrieve the DataKey by the label name.
+     */
+    __findDataKey() {
         let dataKey;
     
         for (const dataKeys of Object.values(this.dataPoint.datasource.dataKeys)) {
@@ -28,220 +31,212 @@ self.onInit = function() {
         
         return dataKey
     }
-    self.ctx.$scope.DataPoint.prototype.__precision = function() {
+
+    /**
+     * Determine the precision for the value.
+     */
+    __precision() {
         const dataKey = this.__findDataKey();
-        
-        return (dataKey.decimals === undefined || dataKey.decimals === null) ? undefined : dataKey.decimals;
+        return (dataKey && dataKey.decimals) || undefined;
     }
-    self.ctx.$scope.DataPoint.prototype.__value = function() {
+
+    /**
+     * Get the actual value, considering its type and necessary precision.
+     */
+    __value() {
         const rawValue = this.dataPoint.data[0][1];
         const precision = this.__precision();
 
         switch (typeof rawValue) {
             case 'number':
-                if (precision === undefined) return rawValue;
-                return parseFloat(rawValue.toFixed(precision));
+                return precision ? parseFloat(rawValue.toFixed(precision)) : rawValue;
             case 'string':
-                if (isNaN(parseFloat(rawValue))) return rawValue;
-                return parseFloat(parseFloat(rawValue).toFixed(precision));
+                return isNaN(rawValue) ? rawValue : parseFloat(parseFloat(rawValue).toFixed(precision || 0));
             case 'object':
                 return JSON.parse(rawValue);
             default:
                 return rawValue;
         }
     }
-    self.ctx.$scope.DataPoint.prototype.__unit = function() {
+
+    /**
+     * Get the associated unit for the value.
+     */
+    __unit() {
         const dataKey = this.__findDataKey();
-        
-        return (dataKey.units === undefined || dataKey.units === null) ? "" : dataKey.units;
+        return (dataKey && dataKey.units) || "";
     }
-    self.ctx.$scope.DataPoint.prototype.__showHTML = function() {
+
+    /** 
+     * Display the wrapperDiv.
+     */
+    __showHTML() {
         this.wrapperDiv.css("display", "flex");
     }
-    self.ctx.$scope.DataPoint.prototype.__setUsage = function() {
-        this.usageDiv.html(`${this.__value()} ${this.__unit()}`)
+
+    /** 
+     * Set the data usage in the designated Div.
+     */
+    __setUsage() {
+        this.usageDiv.html(`${this.__value()} ${this.__unit()}`);
+    }
+}
+
+/**
+ * Update the sizes.
+ */
+function resize() {
+    const masterDiv = self.ctx.$container.find('.master');
+    const wrappers = self.ctx.$container.find('.wrapper');
+    const circles = self.ctx.$container.find('.circle');
+    const svgPath = self.ctx.$container.find('.svg-path');
+    const flowchart = self.ctx.$container.find('.flowchart');
+
+    const wrappersMinSize = Math.min(wrappers.width(), wrappers.height()) * 0.6;
+    const viewBoxValue = `0 0 ${masterDiv.width()} ${masterDiv.height()}`;
+
+    circles.width(wrappersMinSize).height(wrappersMinSize);
+    svgPath.attr('viewBox', viewBoxValue);
+
+    // Simplifying the conditions and making the size adjustments more clear.
+    if (self.ctx.$container.find('.solar-wrapper').css("display") === "none" &&
+        self.ctx.$container.find('.battery-wrapper').css("display") === "none") {
+        wrappers.css("width", `${flowchart.width() / 2}px`);
+    } else {
+        wrappers.css("width", `${flowchart.width() / 3}px`);
+    }
+
+    // Adjusting row height.
+    if (self.ctx.$container.find('.row3').css("display") === "none") {
+        self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
+    } else {
+        self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 3}px`);
+    }
+}
+
+function home(dataPoint) {
+    const dataMap = new DataPoint(dataPoint, '.home-usage', '.home-wrapper')  
+    dataMap.init();
+}
+
+function grid(dataPointExp, dataPointImp) {
+    if (dataPointExp !== undefined) {
+        const dataMapExp = new DataPoint(dataPointExp, '.exported-usage', '.exported')
+        dataMapExp.init();
     }
     
-    /* ----- DATACLASS END ----- */
-    
-    self.ctx.$scope.setFlowChartSize = function() {
-        var masterDiv = self.ctx.$container.find('.master');
-        
-        var masterWidth = masterDiv.width();
-        var masterHeight = masterDiv.height();
-        
-        var wrappers = self.ctx.$container.find('.wrapper')
-        var circles = self.ctx.$container.find('.circle')
-        
-        var wrappersMinSize = Math.min(wrappers.width(), wrappers.height()) * 0.6;
-        
-        circles.width(wrappersMinSize);
-        circles.height(wrappersMinSize);
-        
-        // Change viewBox to match aspect ratio of master container
-        var svgPath = self.ctx.$container.find('.svg-path')
-        var viewBoxValue = '0 0 ' + masterWidth + ' ' + masterHeight;
-        svgPath.each(function() {
-            this.setAttribute('viewBox', viewBoxValue);
-        });
+    const dataMapImp = new DataPoint(dataPointImp, '.imported-usage', '.imported')
+    dataMapImp.init();
+}
 
+function carbon(dataPoint) {
+    const dataMap = new DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')  
+    dataMap.init();
+}
+
+function solar(dataPoint) {
+    if (dataPoint !== undefined) {
+        const dataMap = new DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')  
+        dataMap.init();
+    }
+}
+
+function gas(dataPoint) {
+    if (dataPoint !== undefined) {
+        const dataMap = new DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')  
+        dataMap.init();
+    }
+}
+
+function water(dataPoint) {
+    if (dataPoint !== undefined) {
+        const dataMap = new DataPoint(dataPoint, '.water-usage', '.water-wrapper')  
+        dataMap.init();
+    }
+}
+
+function battery(dataPointPercent, dataPointCharging, dataPointDischarging) {
+    if (dataPointPercent !== undefined || dataPointCharging !== undefined || dataPointDischarging !== undefined) {
+        self.ctx.$container.find('.battery-wrapper').css("display", "flex");
+
+        if (dataPointPercent !== undefined) {
+            const dataMapPercent = new DataPoint(dataPointPercent, '.percent-usage', '.percent')
+            dataMapPercent.init();
+        }
+
+        if (dataPointCharging !== undefined) {
+            const dataMapCharging = new DataPoint(dataPointCharging, '.charging-usage', '.charging')
+            dataMapCharging.init();
+        }
+
+        if (dataPointDischarging !== undefined) {
+            const dataMapDischarging = new DataPoint(dataPointDischarging, '.discharging-usage', '.discharging')
+            dataMapDischarging.init();
+        }
+    }
+}
+
+/**
+ * Process data, create data map and visualize it.
+ */
+async function useData() {
+    if (self.ctx.defaultSubscription.loadingData) return;
+
+    const data = self.ctx.defaultSubscription.data;
+    let dataPoints = {
+        "APPENE": undefined,
+        "ENERGYEXP": undefined,
+        "ENERGYIMP": undefined,
+        "ENRTOTPROD": undefined,
+        "BATTPERCENT": undefined,
+        "ENRBATTCHRG": undefined,
+        "ENRBATTDISCH": undefined,
+        "GAS": undefined,
+        "WATER": undefined,
+    };
+
+    // Mapping the data directly
+    for (const dataPoint of Object.values(data)) {
+        const label = dataPoint.dataKey.name.split('-').at(-1);
+        dataPoints[label] = dataPoint;
+    }
+
+    // Use the datapoints here
+    home(dataPoints['APPENE']);
+    grid(dataPoints['ENERGYEXP'], dataPoints['ENERGYIMP']);
+    carbon(dataPoints['APPENE']);
+    solar(dataPoints['ENRTOTPROD']);
+    gas(dataPoints['GAS']);
+    water(dataPoints['WATER']);
+    battery(dataPoints['BATTPERCENT'], dataPoints['ENRBATTCHRG'], dataPoints['ENRBATTDISCH']);
+
+    // Row3 control
+    if (dataPoints['WATER'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
         const flowchart = self.ctx.$container.find('.flowchart');
-        
-        if (self.ctx.$container.find('.solar-wrapper').css("display") === "none" ||
-            self.ctx.$container.find('.battery-wrapper').css("display") === "none")
-        {
-            wrappers.css("width", `${flowchart.width() / 2}px`);
-        } else {
-            wrappers.css("width", `${flowchart.width() / 3}px`);
-        }
-
-        if (self.ctx.$container.find('.row3').css("display") === "none") {
-            self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
-        } else {
-            self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 3}px`);
-        }
-    }
-    
-    self.ctx.$scope.setFlowChartSize();
-
-    /* ----- ENERGY SOURCES START ----- */
-
-    self.ctx.$scope.home = function(dataPoint) {
-        const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.home-usage', '.home-wrapper')  
-        dataMap.init();
-    }
-    
-    self.ctx.$scope.grid = function(dataPointExp, dataPointImp) {
-        if (dataPointExp !== undefined) {
-            const dataMapExp = new self.ctx.$scope.DataPoint(dataPointExp, '.exported-usage', '.exported')
-            dataMapExp.init();
-        }
-        
-        const dataMapImp = new self.ctx.$scope.DataPoint(dataPointImp, '.imported-usage', '.imported')
-        dataMapImp.init();
-    }
-    
-    self.ctx.$scope.carbon = function(dataPoint) {
-        const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')  
-        dataMap.init();
+        self.ctx.$container.find('.row3').css("display", "none");
+        self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
     }
 
-    self.ctx.$scope.solar = function(dataPoint) {
-        if (dataPoint !== undefined) {
-            const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')  
-            dataMap.init();
-        }
+    if (dataPoints['ENRTOTPROD'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
+        const flowchart = self.ctx.$container.find('.flowchart');
+        self.ctx.$container.find('.wrapper').css("width", `${flowchart.width() / 2}px`);
     }
-
-    self.ctx.$scope.gas = function(dataPoint) {
-        if (dataPoint !== undefined) {
-            const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')  
-            dataMap.init();
-        }
-    }
-
-    self.ctx.$scope.water = function(dataPoint) {
-        if (dataPoint !== undefined) {
-            const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.water-usage', '.water-wrapper')  
-            dataMap.init();
-        }
-    }
-
-    self.ctx.$scope.battery = function(dataPointPercent, dataPointCharging, dataPointDischarging) {
-        if (dataPointPercent !== undefined || dataPointCharging !== undefined || dataPointDischarging !== undefined) {
-            self.ctx.$container.find('.battery-wrapper').css("display", "flex");
-
-            if (dataPointPercent !== undefined) {
-                const dataMapPercent = new self.ctx.$scope.DataPoint(dataPointPercent, '.percent-usage', '.percent')
-                dataMapPercent.init();
-            }
-
-            if (dataPointCharging !== undefined) {
-                const dataMapCharging = new self.ctx.$scope.DataPoint(dataPointCharging, '.charging-usage', '.charging')
-                dataMapCharging.init();
-            }
-
-            if (dataPointDischarging !== undefined) {
-                const dataMapDischarging = new self.ctx.$scope.DataPoint(dataPointDischarging, '.discharging-usage', '.discharging')
-                dataMapDischarging.init();
-            }
-        }
-    }
-
-    self.ctx.$scope.isMiddleColumnVisible = true;
-
-    /* ----- ENERGY SOURCES END ----- */
-
-    // Best proven way of getting data
-    self.ctx.$scope.useData = function() {
-        if (self.ctx.defaultSubscription.loadingData) console.log("FAIL");
-        
-        console.log("1", self.ctx.defaultSubscription.loadingData);
-        console.log(self.ctx.defaultSubscription)
-        // Obtain the data
-        let data = self.ctx.defaultSubscription.data;
-
-        console.log("2", self.ctx.defaultSubscription.loadingData);
-
-        // Datapoints
-        let dataPoints = {
-            "APPENE": undefined,
-            "ENERGYEXP": undefined,
-            "ENERGYIMP": undefined,
-            "ENRTOTPROD": undefined,
-            "BATTPERCENT": undefined,
-            "ENRBATTCHRG": undefined,
-            "ENRBATTDISCH": undefined,
-            "GAS": undefined,
-            "WATER": undefined,
-        }
-
-        console.log("3", self.ctx.defaultSubscription.loadingData);
-            
-        // Why : https://github.com/thingsboard/thingsboard/issues/6609#issuecomment-1142185617
-        setTimeout(() => {
-            console.log("4", self.ctx.defaultSubscription.loadingData);
-
-            for (const dataPoint of Object.values(data)) {
-                const label = dataPoint.dataKey.name.split('-').at(-1);
-                dataPoints[label] = dataPoint;
-            }
-
-            if (dataPoints['ENERGYIMP'] === undefined) {
-                dataPoints['ENERGYIMP'] = dataPoints['APPENE'];
-            }
-    
-            // Use the datapoints here
-            self.ctx.$scope.home(dataPoints['APPENE']);
-            self.ctx.$scope.grid(dataPoints['ENERGYEXP'], dataPoints['ENERGYIMP']);
-            self.ctx.$scope.carbon(dataPoints['APPENE']);
-            self.ctx.$scope.solar(dataPoints['ENRTOTPROD']);
-            self.ctx.$scope.gas(dataPoints['GAS']);
-            self.ctx.$scope.water(dataPoints['WATER']);
-            self.ctx.$scope.battery(dataPoints['BATTPERCENT'], dataPoints['ENRBATTCHRG'], dataPoints['ENRBATTDISCH']);
-
-            // Row3 control
-            if (dataPoints['WATER'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
-                const flowchart = self.ctx.$container.find('.flowchart');
-                self.ctx.$container.find('.row3').css("display", "none");
-                self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
-            }
-
-            if (dataPoints['ENRTOTPROD'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
-                const flowchart = self.ctx.$container.find('.flowchart');
-                self.ctx.$container.find('.wrapper').css("width", `${flowchart.width() / 2}px`);
-            }
-        }, 1000);
-    }
-
-    self.ctx.$scope.useData();
+}
+self.onInit = function() {
+    useData();
+    resize();
 }
     
 self.onDataUpdated = function() {
     self.ctx.detectChanges()
-    self.ctx.$scope.useData();
+    useData();
+    resize();
 }
 
 self.onResize = function() {
-    self.ctx.$scope.setFlowChartSize();
+    resize();
+}
+
+self.onEditModeChanged = function() {
+    resize();
 }
