@@ -9,40 +9,32 @@ class DataPoint {
         this.label = this.dataPoint.dataKey.label;
     }
 
-    /** 
-     * Initialize the display.
-     */
+    /** Initialize the display. */
     init() {
         this.__showHTML();
         this.__setUsage();
     }
 
-    /** 
-     * Retrieve the DataKey by the label name.
-     */
+    /** Retrieve the DataKey by the label name. */
     __findDataKey() {
         let dataKey;
-    
+
         for (const dataKeys of Object.values(this.dataPoint.datasource.dataKeys)) {
             if (dataKeys.name === this.label) {
                 dataKey = dataKeys;
             }
         }
-        
+
         return dataKey
     }
 
-    /**
-     * Determine the precision for the value.
-     */
+    /** Determine the precision for the value. */
     __precision() {
         const dataKey = this.__findDataKey();
         return (dataKey && dataKey.decimals) || undefined;
     }
 
-    /**
-     * Get the actual value, considering its type and necessary precision.
-     */
+    /** Get the actual value, considering its type and necessary precision. */
     __value() {
         const rawValue = this.dataPoint.data[0][1];
         const precision = this.__precision();
@@ -59,32 +51,24 @@ class DataPoint {
         }
     }
 
-    /**
-     * Get the associated unit for the value.
-     */
+    /** Get the associated unit for the value. */
     __unit() {
         const dataKey = this.__findDataKey();
         return (dataKey && dataKey.units) || "";
     }
 
-    /** 
-     * Display the wrapperDiv.
-     */
+    /** Display the wrapperDiv. */
     __showHTML() {
         this.wrapperDiv.css("display", "flex");
     }
 
-    /** 
-     * Set the data usage in the designated Div.
-     */
+    /** Set the data usage in the designated Div. */
     __setUsage() {
         this.usageDiv.html(`${this.__value()} ${this.__unit()}`);
     }
 }
 
-/**
- * Update the sizes.
- */
+/** Update the sizes. */
 function resize() {
     const masterDiv = self.ctx.$container.find('.master');
     const wrappers = self.ctx.$container.find('.wrapper');
@@ -115,7 +99,7 @@ function resize() {
 }
 
 function home(dataPoint) {
-    const dataMap = new DataPoint(dataPoint, '.home-usage', '.home-wrapper')  
+    const dataMap = new DataPoint(dataPoint, '.home-usage', '.home-wrapper')
     dataMap.init();
 }
 
@@ -124,33 +108,33 @@ function grid(dataPointExp, dataPointImp) {
         const dataMapExp = new DataPoint(dataPointExp, '.exported-usage', '.exported')
         dataMapExp.init();
     }
-    
+
     const dataMapImp = new DataPoint(dataPointImp, '.imported-usage', '.imported')
     dataMapImp.init();
 }
 
 function carbon(dataPoint) {
-    const dataMap = new DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')  
+    const dataMap = new DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')
     dataMap.init();
 }
 
 function solar(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')  
+        const dataMap = new DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')
         dataMap.init();
     }
 }
 
 function gas(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')  
+        const dataMap = new DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')
         dataMap.init();
     }
 }
 
 function water(dataPoint) {
     if (dataPoint !== undefined) {
-        const dataMap = new DataPoint(dataPoint, '.water-usage', '.water-wrapper')  
+        const dataMap = new DataPoint(dataPoint, '.water-usage', '.water-wrapper')
         dataMap.init();
     }
 }
@@ -176,9 +160,7 @@ function battery(dataPointPercent, dataPointCharging, dataPointDischarging) {
     }
 }
 
-/**
- * Process data, create data map and visualize it.
- */
+/** Process data, create data map and visualize it. */
 async function useData() {
     if (self.ctx.defaultSubscription.loadingData) return;
 
@@ -222,21 +204,22 @@ async function useData() {
         self.ctx.$container.find('.wrapper').css("width", `${flowchart.width() / 2}px`);
     }
 }
-self.onInit = function() {
+
+self.onInit = function () {
     useData();
     resize();
 }
-    
-self.onDataUpdated = function() {
+
+self.onDataUpdated = function () {
     self.ctx.detectChanges()
     useData();
     resize();
 }
 
-self.onResize = function() {
+self.onResize = function () {
     resize();
 }
 
-self.onEditModeChanged = function() {
+self.onEditModeChanged = function () {
     resize();
 }
