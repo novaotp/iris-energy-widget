@@ -84,6 +84,8 @@ function resize() {
     } else {
         self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 3}px`);
     }
+
+    updateSVGs();
 }
 
 function home(dataPoint) {
@@ -146,6 +148,22 @@ function battery(dataPointPercent, dataPointCharging, dataPointDischarging) {
             dataMapDischarging.init();
         }
     }
+}
+
+function updateSVGs() {
+    function generateUniqueID(prefix = '') {
+        return prefix + Math.random().toString(36).slice(2, 11);
+    }
+
+    $('.svg-path').each(function() {
+        const uniquePathID = generateUniqueID('path_');
+        
+        // Update the path ID
+        $(this).find('path').attr('id', uniquePathID);
+        
+        // Update the mpath's href to reference the new path ID
+        $(this).find('animateMotion > mpath').attr('href', `#${uniquePathID}`);
+    });
 }
 
 /** Process data, create data map and visualize it. */

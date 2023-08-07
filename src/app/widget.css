@@ -194,18 +194,12 @@
 
 /* ---- SVG BACKGROUND START ---- */
 
-.svg-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 30px;
-    left: 30px;
-}
-
+.svg-bg,
 .svg-path {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
+    padding: 30px;
     top: 0;
     left: 0;
 }
