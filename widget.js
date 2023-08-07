@@ -11,9 +11,11 @@ self.onInit = function() {
         this.dataPoint = dataPoint;
         this.usageDiv = self.ctx.$container.find(usageClass);
         this.wrapperDiv = self.ctx.$container.find(wrapperClass);
-        this.__showHTML();
-
         this.label = this.dataPoint.dataKey.label;
+    }
+    self.ctx.$scope.DataPoint.prototype.init = function() {
+        this.__showHTML();
+        this.__setUsage();
     }
     self.ctx.$scope.DataPoint.prototype.__findDataKey = function() {
         let dataKey;
@@ -44,6 +46,8 @@ self.onInit = function() {
                 return parseFloat(parseFloat(rawValue).toFixed(precision));
             case 'object':
                 return JSON.parse(rawValue);
+            default:
+                return rawValue;
         }
     }
     self.ctx.$scope.DataPoint.prototype.__unit = function() {
@@ -54,7 +58,7 @@ self.onInit = function() {
     self.ctx.$scope.DataPoint.prototype.__showHTML = function() {
         this.wrapperDiv.css("display", "flex");
     }
-    self.ctx.$scope.DataPoint.prototype.setUsage = function() {
+    self.ctx.$scope.DataPoint.prototype.__setUsage = function() {
         this.usageDiv.html(`${this.__value()} ${this.__unit()}`)
     }
     
@@ -69,10 +73,7 @@ self.onInit = function() {
         var wrappers = self.ctx.$container.find('.wrapper')
         var circles = self.ctx.$container.find('.circle')
         
-        var wrappersWidth = wrappers.width();
-        var wrappersHeight = wrappers.height();
-        
-        var wrappersMinSize = Math.min(wrappersWidth, wrappersHeight) * 0.6;
+        var wrappersMinSize = Math.min(wrappers.width(), wrappers.height()) * 0.6;
         
         circles.width(wrappersMinSize);
         circles.height(wrappersMinSize);
@@ -83,6 +84,22 @@ self.onInit = function() {
         svgPath.each(function() {
             this.setAttribute('viewBox', viewBoxValue);
         });
+
+        const flowchart = self.ctx.$container.find('.flowchart');
+        
+        if (self.ctx.$container.find('.solar-wrapper').css("display") === "none" ||
+            self.ctx.$container.find('.battery-wrapper').css("display") === "none")
+        {
+            wrappers.css("width", `${flowchart.width() / 2}px`);
+        } else {
+            wrappers.css("width", `${flowchart.width() / 3}px`);
+        }
+
+        if (self.ctx.$container.find('.row3').css("display") === "none") {
+            self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
+        } else {
+            self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 3}px`);
+        }
     }
     
     self.ctx.$scope.setFlowChartSize();
@@ -91,40 +108,42 @@ self.onInit = function() {
 
     self.ctx.$scope.home = function(dataPoint) {
         const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.home-usage', '.home-wrapper')  
-        dataMap.setUsage();
+        dataMap.init();
     }
     
     self.ctx.$scope.grid = function(dataPointExp, dataPointImp) {
         if (dataPointExp !== undefined) {
             const dataMapExp = new self.ctx.$scope.DataPoint(dataPointExp, '.exported-usage', '.exported')
-            dataMapExp.setUsage();
+            dataMapExp.init();
         }
         
         const dataMapImp = new self.ctx.$scope.DataPoint(dataPointImp, '.imported-usage', '.imported')
-        dataMapImp.setUsage();
+        dataMapImp.init();
     }
     
     self.ctx.$scope.carbon = function(dataPoint) {
         const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.carbon-usage', '.carbon-wrapper')  
-        dataMap.setUsage();
+        dataMap.init();
     }
 
     self.ctx.$scope.solar = function(dataPoint) {
-        const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')  
-        dataMap.setUsage();
+        if (dataPoint !== undefined) {
+            const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.solar-usage', '.solar-wrapper')  
+            dataMap.init();
+        }
     }
 
     self.ctx.$scope.gas = function(dataPoint) {
         if (dataPoint !== undefined) {
             const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.gas-usage', '.gas-wrapper')  
-            dataMap.setUsage();
+            dataMap.init();
         }
     }
 
     self.ctx.$scope.water = function(dataPoint) {
         if (dataPoint !== undefined) {
             const dataMap = new self.ctx.$scope.DataPoint(dataPoint, '.water-usage', '.water-wrapper')  
-            dataMap.setUsage();
+            dataMap.init();
         }
     }
 
@@ -134,27 +153,35 @@ self.onInit = function() {
 
             if (dataPointPercent !== undefined) {
                 const dataMapPercent = new self.ctx.$scope.DataPoint(dataPointPercent, '.percent-usage', '.percent')
-                dataMapPercent.setUsage();
+                dataMapPercent.init();
             }
 
             if (dataPointCharging !== undefined) {
                 const dataMapCharging = new self.ctx.$scope.DataPoint(dataPointCharging, '.charging-usage', '.charging')
-                dataMapCharging.setUsage();
+                dataMapCharging.init();
             }
 
             if (dataPointDischarging !== undefined) {
                 const dataMapDischarging = new self.ctx.$scope.DataPoint(dataPointDischarging, '.discharging-usage', '.discharging')
-                dataMapDischarging.setUsage();
+                dataMapDischarging.init();
             }
         }
     }
+
+    self.ctx.$scope.isMiddleColumnVisible = true;
 
     /* ----- ENERGY SOURCES END ----- */
 
     // Best proven way of getting data
     self.ctx.$scope.useData = function() {
+        if (self.ctx.defaultSubscription.loadingData) console.log("FAIL");
+        
+        console.log("1", self.ctx.defaultSubscription.loadingData);
+        console.log(self.ctx.defaultSubscription)
         // Obtain the data
         let data = self.ctx.defaultSubscription.data;
+
+        console.log("2", self.ctx.defaultSubscription.loadingData);
 
         // Datapoints
         let dataPoints = {
@@ -168,9 +195,13 @@ self.onInit = function() {
             "GAS": undefined,
             "WATER": undefined,
         }
+
+        console.log("3", self.ctx.defaultSubscription.loadingData);
             
         // Why : https://github.com/thingsboard/thingsboard/issues/6609#issuecomment-1142185617
         setTimeout(() => {
+            console.log("4", self.ctx.defaultSubscription.loadingData);
+
             for (const dataPoint of Object.values(data)) {
                 const label = dataPoint.dataKey.name.split('-').at(-1);
                 dataPoints[label] = dataPoint;
@@ -184,9 +215,22 @@ self.onInit = function() {
             self.ctx.$scope.home(dataPoints['APPENE']);
             self.ctx.$scope.grid(dataPoints['ENERGYEXP'], dataPoints['ENERGYIMP']);
             self.ctx.$scope.carbon(dataPoints['APPENE']);
+            self.ctx.$scope.solar(dataPoints['ENRTOTPROD']);
             self.ctx.$scope.gas(dataPoints['GAS']);
             self.ctx.$scope.water(dataPoints['WATER']);
             self.ctx.$scope.battery(dataPoints['BATTPERCENT'], dataPoints['ENRBATTCHRG'], dataPoints['ENRBATTDISCH']);
+
+            // Row3 control
+            if (dataPoints['WATER'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
+                const flowchart = self.ctx.$container.find('.flowchart');
+                self.ctx.$container.find('.row3').css("display", "none");
+                self.ctx.$container.find('.rows').css("height", `${flowchart.height() / 2}px`);
+            }
+
+            if (dataPoints['ENRTOTPROD'] === undefined && dataPoints['BATTPERCENT'] === undefined && dataPoints['ENRBATTCHRG'] === undefined && dataPoints['ENRBATTDISCH'] === undefined) {
+                const flowchart = self.ctx.$container.find('.flowchart');
+                self.ctx.$container.find('.wrapper').css("width", `${flowchart.width() / 2}px`);
+            }
         }, 1000);
     }
 
