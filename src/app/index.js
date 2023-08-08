@@ -1,13 +1,13 @@
 import Resizer from "./js/resizer.class.js"
 import updateData from "./js/updateData.js"
-import myHTML from './widget.html';
-import './widget.css';
+import myHTML from './index.html';
+import './style.css';
 
 let resizer;
 
 self.onInit = function () {
     if (self.ctx === undefined) return;
-    self.ctx.$container.html(myHTML)
+    self.ctx.$container.html(myHTML);
     resizer = new Resizer(self.ctx);
 }
 

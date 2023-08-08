@@ -1,3 +1,5 @@
+import SVGUpdater from "./svgUpdater.class.js";
+
 export default class Resizer {
   /**
    * Initializes a new instance of the Resizer class.
@@ -14,6 +16,7 @@ export default class Resizer {
     this.batteryWrapperDiv = ctx.$container.find('.battery-wrapper');
     this.rowsDiv = ctx.$container.find('.rows');
     this.row3Div = ctx.$container.find('.row3');
+    this.ctx = ctx;
   }
 
   /**
@@ -23,7 +26,7 @@ export default class Resizer {
     this.setWrapperWidth();
     this.setRowHeight();
     this.setCircleSize();
-    this.setSVGs();
+    new SVGUpdater(ctx).init();
   }
 
   /**
@@ -82,46 +85,5 @@ export default class Resizer {
   setCircleSize() {
     const size = this.__getCircleSize();
     this.circlesDiv.width(size).height(size);
-  }
-
-  /**
-   * Adds unique paths for SVG elements.
-   * 
-   * @private
-   */
-  __addUniquePaths() {
-    /**
-     * Generates a unique ID for SVG paths.
-     * 
-     * @returns {string} A unique ID string.
-     * @private
-     */
-    function __generateUniqueID(prefix = '') {
-      return prefix + Math.random().toString(36).slice(2, 11);
-    }
-
-    this.svgPathsDiv.each(function () {
-      const uniquePathID = __generateUniqueID('path_');
-      $(this).find('path').attr('id', uniquePathID);
-      $(this).find('animateMotion > mpath').attr('href', `#${uniquePathID}`);
-    }.bind(this));
-  }
-
-  /**
-   * Adjusts the viewBox attribute for SVG elements based on master div dimensions.
-   * 
-   * @private
-   */
-  __adaptViewBox() {
-    const viewBoxValue = `0 0 ${this.masterDiv.width()} ${this.masterDiv.height()}`;
-    this.svgPathsDiv.attr('viewBox', viewBoxValue);
-  }
-
-  /**
-   * Calls methods related to SVG adjustments.
-   */
-  setSVGs() {
-    this.__addUniquePaths();
-    this.__adaptViewBox();
   }
 }

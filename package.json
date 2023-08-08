@@ -12,8 +12,19 @@
   "devDependencies": {
     "css-loader": "^6.8.1",
     "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0",
     "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "glob": "^10.3.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "purgecss": "^5.0.0",
+    "purgecss-webpack-plugin": "^5.0.0",
+    "uuid": "^9.0.0"
   }
 }
