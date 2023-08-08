@@ -8,10 +8,7 @@ class DataPoint {
     }
 
     /** Initialize the display. */
-    init() {
-        this.__showHTML();
-        this.__setUsage();
-    }
+    init() { this.__showHTML(); this.__setUsage(); }
 
     /** Retrieve the DataKey by the label name. */
     __findDataKey() { return Object.values(this.dataPoint.datasource.dataKeys).find(dataKey => dataKey.name === this.label); }
@@ -46,14 +43,10 @@ class DataPoint {
     }
 
     /** Display the wrapperDiv. */
-    __showHTML() {
-        this.container.find(`.${this.wrapperClass}`).css("display", "flex");
-    }
+    __showHTML() { this.container.find(`.${this.wrapperClass}`).css("display", "flex"); }
 
     /** Set the data usage in the designated Div. */
-    __setUsage() {
-        this.container.find(`.${this.wrapperClass} .usage`).html(`${this.__value()} ${this.__unit()}`);
-    }
+    __setUsage() { this.container.find(`.${this.wrapperClass} .usage`).html(`${this.__value()} ${this.__unit()}`); }
 }
 
 /** Update the sizes. */
