@@ -7,7 +7,7 @@ let resizer;
 
 self.onInit = function () {
     if (self.ctx === undefined) return;
-    self.ctx.$container.find('.master').html(myHTML)
+    self.ctx.$container.html(myHTML)
     resizer = new Resizer(self.ctx);
 }
 
