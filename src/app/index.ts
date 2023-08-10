@@ -4,13 +4,10 @@ import DataPoint from './ts/DataPoint';
 import GenericResizer from './ts/GenericResizer';
 import DataUpdater from './ts/DataUpdater';
 import { Label } from './types';
-import StraightSVG from './ts/SVGClass/StraightSVG';
 
 let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
 let resizer: GenericResizer;
-let svg: StraightSVG;
-let svg2: StraightSVG;
 
 self.onInit = function () {
   if (self.ctx === undefined) return;
@@ -29,16 +26,12 @@ self.onInit = function () {
   }
   updater = new DataUpdater(self.ctx, datapoints);
   resizer = new GenericResizer(self.ctx, datapoints);
-  svg = new StraightSVG(self.ctx, 'grid', 'home', 'blue')
-  svg2 = new StraightSVG(self.ctx, 'grid', 'carbon', 'green', false)
 }
 
 self.onDataUpdated = function () {
   self.ctx.detectChanges()
   updater.update();
   resizer.resize();
-  svg.showUpdated();
-  svg2.showUpdated();
 }
 
 self.onResize = function () {
