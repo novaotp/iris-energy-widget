@@ -31,14 +31,14 @@ self.onInit = function () {
 self.onDataUpdated = function () {
   self.ctx.detectChanges()
   updater.update();
-  resizer.all();
+  resizer.resize();
 }
 
 self.onResize = function () {
-  resizer.all();
+  resizer.resize();
 }
 
 self.onEditModeChanged = function () {
   updater.update();
-  resizer.all();
+  resizer.resize();
 }
