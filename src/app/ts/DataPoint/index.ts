@@ -23,8 +23,14 @@ export default class DataPoint {
     this.renderer = new Renderer(wrapper, superWrapper);
   }
 
+  /** Returns a boolean based on wether the data is empty or not */
   public isDataEmpty(): boolean {
     return this.dataHandler.isDataEmpty;
+  }
+
+  /** Returns the datapoint's data */
+  public getData(): DatasourceData {
+    return this.dataHandler.data!;
   }
 
   /**

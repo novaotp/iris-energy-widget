@@ -5,7 +5,7 @@ export default class DataHandler {
   /**
    * @param data The data
    */
-  private data: DatasourceData | undefined;
+  public data: DatasourceData | undefined;
   /**
    * @param isDataEmpty A property that indicates wether the data is empty or not
    */

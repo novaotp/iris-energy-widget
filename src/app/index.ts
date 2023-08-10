@@ -2,10 +2,10 @@ import myHTML from './template.html'
 import './style.css'
 import DataPoint from './ts/DataPoint';
 import GenericResizer from './ts/GenericResizer';
-import Updater from './ts/Updater';
+import DataUpdater from './ts/DataUpdater';
 import { Label } from './types';
 
-let updater: Updater;
+let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
 let resizer: GenericResizer;
 
@@ -24,7 +24,7 @@ self.onInit = function () {
     GAS: new DataPoint(undefined, self.ctx.$container.find('.gas-wrapper')),
     WATER: new DataPoint(undefined, self.ctx.$container.find('.water-wrapper')),
   }
-  updater = new Updater(self.ctx, datapoints);
+  updater = new DataUpdater(self.ctx, datapoints);
   resizer = new GenericResizer(self.ctx, datapoints);
 }
 
