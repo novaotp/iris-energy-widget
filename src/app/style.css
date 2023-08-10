@@ -203,4 +203,8 @@
     left: 0;
 }
 
+.svg-path {
+    display: none;
+}
+
 /* ---- SVG BACKGROUND END ---- */

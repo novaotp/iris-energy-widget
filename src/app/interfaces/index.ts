@@ -18,3 +18,14 @@ export default interface WidgetContext {
   $container: JQuery<HTMLElement>;
   detectChanges(): void;
 }
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}
+
+export type Wrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water'
+
+export type CenterMapRecord = {
+  [key in Wrapper]: Coordinates;
+}

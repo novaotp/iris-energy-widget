@@ -1,4 +1,4 @@
-import WidgetContext from ".";
+import WidgetContext from "../interfaces";
 
 declare global {
   interface Window {
