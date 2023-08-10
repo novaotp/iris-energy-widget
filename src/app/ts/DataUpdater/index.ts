@@ -73,5 +73,6 @@ export default class DataUpdater {
   public update(): void {
     this.disableDatapoints();
     this.enableSpecificDatapoints();
+    console.log("FLOWCHART DIV", this.ctx.$container.find('.flowchart'))
   }
 }
