@@ -1,5 +1,3 @@
-import myHTML from './template.html'
-import './style.css'
 import DataPoint from './ts/DataPoint';
 import GenericResizer from './ts/GenericResizer';
 import DataUpdater from './ts/DataUpdater';
@@ -11,7 +9,6 @@ let resizer: GenericResizer;
 
 self.onInit = function () {
   if (self.ctx === undefined) return;
-  self.ctx.$container.html(myHTML);
   datapoints = {
     CARBON: new DataPoint(undefined, self.ctx.$container.find('.carbon-wrapper')),
     APPENE: new DataPoint(undefined, self.ctx.$container.find('.home-wrapper')),

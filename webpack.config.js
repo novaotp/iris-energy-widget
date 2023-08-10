@@ -10,14 +10,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
-        use: ['html-loader']
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
         test: /\.tsx?$/,  // This will apply to both .ts and .tsx files
         use: 'ts-loader',
         exclude: /node_modules/
