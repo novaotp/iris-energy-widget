@@ -26,10 +26,10 @@ export default class GenericResizer {
    * @returns True if the last row (battery and water) is empty, false otherwise.
    */
   private isLastRowEmpty(): boolean {
-    if (this.datapoints.BATTPERCENT.isDataObjectEmpty() &&
-        this.datapoints.ENRBATTCHRG.isDataObjectEmpty() &&
-        this.datapoints.ENRBATTDISCH.isDataObjectEmpty() &&
-        this.datapoints.WATER.isDataObjectEmpty()
+    if (this.datapoints.BATTPERCENT.isDataEmpty() &&
+        this.datapoints.ENRBATTCHRG.isDataEmpty() &&
+        this.datapoints.ENRBATTDISCH.isDataEmpty() &&
+        this.datapoints.WATER.isDataEmpty()
     ) {
       return true;
     }
@@ -51,10 +51,10 @@ export default class GenericResizer {
    * @returns True if the middle column (solar, battery) is empty, false otherwise.
    */
   private isMiddleColumnEmpty(): boolean {
-    if (this.datapoints.BATTPERCENT.isDataObjectEmpty() &&
-        this.datapoints.ENRBATTCHRG.isDataObjectEmpty() &&
-        this.datapoints.ENRBATTDISCH.isDataObjectEmpty() &&
-        this.datapoints.ENRTOTPROD.isDataObjectEmpty()
+    if (this.datapoints.BATTPERCENT.isDataEmpty() &&
+        this.datapoints.ENRBATTCHRG.isDataEmpty() &&
+        this.datapoints.ENRBATTDISCH.isDataEmpty() &&
+        this.datapoints.ENRTOTPROD.isDataEmpty()
     ) {
       return true;
     }
