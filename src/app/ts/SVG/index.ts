@@ -1,56 +1,93 @@
 import { v4 } from "uuid";
+import Wrapper from "./Wrapper";
+import { TWrapper } from "@app/interfaces";
 
 /** Represents the base class for SVG elements. */
 export default abstract class SVG {
   /** A unique Id for the SVG element. */
-  protected svgId: string;
+  private svgId: string;
   /** A unique Id for the SVG path. */
-  protected pathId: string;
-  /** Color for the SVG element. */
-  protected color: string;
-  /** Determines if the SVG should include a circle. */
-  protected includeCircle: boolean;
+  private pathId: string;
   /** The master container of the widget. */
   protected master: JQuery<HTMLElement>;
+  /** The origin wrapper of the SVG. */
+  protected from: Wrapper;
+  /** The destination wrapper of the SVG. */
+  protected to: Wrapper;
+  /** Color for the SVG element. */
+  private color: string;
 
   /**
    * Initializes a new instance of the SVG class.
-   * @param master - The master container of the widget.
-   * @param color - The color for the SVG.
-   * @param includeCircle - Whether the SVG includes a circle.
+   * @param master The master container of the widget.
+   * @param from The origin wrapper name of the SVG.
+   * @param to The destination wrapper name of the SVG.
+   * @param color The color for the SVG.
    */
-  constructor(master: JQuery<HTMLElement>, color: string, includeCircle: boolean = true) {
+  constructor(master: JQuery<HTMLElement>, from: TWrapper, to: TWrapper, color: string) {
     this.svgId = v4();
     this.pathId = v4();
-    console.log(this.pathId)
 
     this.master = master;
+    this.from = new Wrapper(master, from);
+    this.to = new Wrapper(master, to);
     this.color = color;
-    this.includeCircle = includeCircle;
+
+    this.init();
   }
 
-  /** Initializes the SVG. */
-  protected abstract init(): void;
-
-  /** Updates the SVG. */
-  public abstract update(): void;
-
-  /** Generate the path data from the wrappers */
+  /** Generates the path data from the wrappers */
   protected abstract generatePathData(): string;
 
+  /** Initializes the SVG. */
+  protected init(): void {
+    const pathData = this.generatePathData();
+    const viewBoxValue = this.getViewBoxValue();
+    const duration = this.getAnimationSpeed();
+
+    let svg = `
+      <svg id=${this.svgId} class="svg-path" preserveAspectRatio="none" viewBox="${viewBoxValue}" xmlns="http://www.w3.org/2000/svg">
+          <path id="${this.pathId}" d="${pathData}" stroke="${this.color}" fill="transparent" stroke-width="2"/>
+          <circle id="myCircle" r="6" fill="${this.color}">
+              <animateMotion repeatCount="indefinite" dur="${duration}s">
+                  <mpath href="#${this.pathId}"/>
+              </animateMotion>
+          </circle>
+      </svg>`;
+
+    this.addToDom(svg);
+    this.hide();
+  }
+
+  /** Updates the SVG. */
+  public update(): void {
+    if (!this.from.isVisible() || !this.to.isVisible()) {
+      this.hide();
+      return;
+    }
+
+    this.restart();
+    this.show();
+  }
+
+  /** Adds the SVG in the DOM */
+  private addToDom(svg: string): void {
+    this.master.find('.svg-bg').append(svg);
+  }
+
   /** Restarts the SVG. */
-  protected restart(): void {
+  private restart(): void {
     this.master.find(`#${this.svgId}`).remove();
     this.init();
   }
 
-  /** Get the viewbox in pixels */
-  protected getViewBoxValue(): string {
+  /** Gets the viewbox in pixels */
+  private getViewBoxValue(): string {
     return `0 0 ${this.master.width()!} ${this.master.height()!}`;
   }
 
   /** Returns a fixed speed between 1s and 1.5s */
-  protected getAnimationSpeed(): number {
+  private getAnimationSpeed(): number {
     const randomValue = (0.5 - Math.random()) / 2; // Range between -0.25 and 0.25
     const baseSpeed = 1.25;
 
@@ -60,12 +97,12 @@ export default abstract class SVG {
   }
 
   /** Displays the SVG. */
-  protected show(): void {
+  private show(): void {
     this.master.find(`#${this.svgId}`).css("display", "initial")
   }
 
   /** Hides the SVG. */
-  protected hide(): void {
+  private hide(): void {
     this.master.find(`#${this.svgId}`).css("display", "none")
   }
 }

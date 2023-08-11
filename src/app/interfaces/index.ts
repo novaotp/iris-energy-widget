@@ -20,7 +20,9 @@ export default interface WidgetContext {
 }
 
 export interface Coordinates {
+  /** The horizontal coordinate */
   x: number;
+  /** The vertical coordinate */
   y: number;
 }
 

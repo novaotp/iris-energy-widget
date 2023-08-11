@@ -4,6 +4,7 @@ import DataUpdater from './ts/DataUpdater';
 import { Label } from './types';
 import SVG from './ts/SVG';
 import StraightSVG from './ts/SVG/StraightSVG';
+import CurvedSVG from './ts/SVG/CurvedSVG';
 
 let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
@@ -30,12 +31,17 @@ self.onInit = function () {
   updater = new DataUpdater(self.ctx, datapoints);
   resizer = new GenericResizer(self.ctx, datapoints);
   const master = self.ctx.$container.find('.master');
+  const offset = 10;
   svgs = [
     new StraightSVG(master, 'grid', 'home', "blue"),
     new StraightSVG(master, 'carbon', 'grid', "green"),
     new StraightSVG(master, 'solar', 'battery', "grey"),
     new StraightSVG(master, 'water', 'home', "lightblue"),
     new StraightSVG(master, 'gas', 'home', "black"),
+    new CurvedSVG(master, 'solar', 'grid', 'red', { x: -offset, y: 0 }, { x: 0, y: offset }),
+    new CurvedSVG(master, 'solar', 'home', 'yellow', { x: offset, y: 0 }, { x: 0, y: offset }),
+    new CurvedSVG(master, 'battery', 'grid', 'orange', { x: -offset, y: 0 }, { x: 0, y: -offset }),
+    new CurvedSVG(master, 'battery', 'grid', 'brown', { x: offset, y: 0 }, { x: 0, y: -offset }),
   ]
 }
 
