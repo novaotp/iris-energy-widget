@@ -24,8 +24,4 @@ export interface Coordinates {
   y: number;
 }
 
-export type Wrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water'
-
-export type CenterMapRecord = {
-  [key in Wrapper]: Coordinates;
-}
+export type TWrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water';

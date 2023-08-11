@@ -35,7 +35,7 @@ export default class DataHandler {
 
   /** Get the data's units or an empty string */
   private getUnits(): string {
-    return this.data!.dataKey.units;
+    return this.data!.dataKey.units ?? "";
   }
 
   /** Get the data's decimals or null */
