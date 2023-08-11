@@ -25,8 +25,7 @@ export default class StraightSVG extends SVG {
     this.init();
   }
 
-  /** Get the path data from the wrappers */
-  private getPathData(): string {
+  protected generatePathData(): string {
     const from: Coordinates = this.from.getCenterCoordinates();
     const to: Coordinates = this.to.getCenterCoordinates();
 
@@ -56,18 +55,8 @@ export default class StraightSVG extends SVG {
     return speed;
   }
 
-  /** Returns a fixed speed between  */
-  private getAnimationSpeed(): number {
-    const randomValue = (0.5 - Math.random()) / 2; // Range between -0.25 and 0.25
-    const baseSpeed = 1.25;
-
-    const speed = baseSpeed + randomValue; // Speed between 1 and 1.5s
-
-    return speed;
-  }
-
   protected init(): void {
-    const pathData = this.getPathData();
+    const pathData = this.generatePathData();
     const viewBoxValue = this.getViewBoxValue();
     const duration = this.getAnimationSpeed();
 
@@ -97,7 +86,7 @@ export default class StraightSVG extends SVG {
     }
 
     this.master.find(`#${this.svgId}`).attr("viewBox", this.getViewBoxValue());
-    this.master.find(`#${this.pathId}`).attr("d", this.getPathData());
+    this.master.find(`#${this.pathId}`).attr("d", this.generatePathData());
     this.restart();
     this.show();
   }

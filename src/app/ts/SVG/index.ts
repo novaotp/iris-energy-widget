@@ -35,6 +35,9 @@ export default abstract class SVG {
   /** Updates the SVG. */
   public abstract update(): void;
 
+  /** Generate the path data from the wrappers */
+  protected abstract generatePathData(): string;
+
   /** Restarts the SVG. */
   protected restart(): void {
     this.master.find(`#${this.svgId}`).remove();
@@ -44,6 +47,16 @@ export default abstract class SVG {
   /** Get the viewbox in pixels */
   protected getViewBoxValue(): string {
     return `0 0 ${this.master.width()!} ${this.master.height()!}`;
+  }
+
+  /** Returns a fixed speed between 1s and 1.5s */
+  protected getAnimationSpeed(): number {
+    const randomValue = (0.5 - Math.random()) / 2; // Range between -0.25 and 0.25
+    const baseSpeed = 1.25;
+
+    const speed = baseSpeed + randomValue; // Speed between 1 and 1.5s
+
+    return speed;
   }
 
   /** Displays the SVG. */
