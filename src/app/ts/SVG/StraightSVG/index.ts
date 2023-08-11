@@ -33,9 +33,29 @@ export default class StraightSVG extends SVG {
     return `M${from.x},${from.y} L${to.x},${to.y}`;
   }
 
+  /** Returns a normalized animation speed */
+  private getAnimationSpeed(): number {
+    const value = this.from.getValue();
+
+    const minValue = 0;
+    const maxValue = 500;
+
+    const minSpeed = 5;   // Slowest animation (in seconds)
+    const maxSpeed = 0.5; // Fastest animation (in seconds)
+
+    // Clamp value between minValue and maxValue to avoid unexpected results
+    const clampedValue = Math.max(minValue, Math.min(value, maxValue));
+
+    // Linearly map value to speed
+    const speed = ((maxValue - clampedValue) / (maxValue - minValue)) * (minSpeed - maxSpeed) + maxSpeed;
+
+    return speed;
+  }
+
   protected init(): void {
     const pathData = this.getPathData();
     const viewBoxValue = this.getViewBoxValue();
+    const duration = this.getAnimationSpeed();
 
     let svg = `
       <svg id=${this.svgId} class="svg-path" preserveAspectRatio="none" viewBox="${viewBoxValue}" xmlns="http://www.w3.org/2000/svg">
@@ -44,7 +64,7 @@ export default class StraightSVG extends SVG {
     if (this.includeCircle) {
       svg += `
           <circle id="myCircle" r="6" fill="${this.color}">
-              <animateMotion repeatCount="indefinite" dur="1s">
+              <animateMotion repeatCount="indefinite" dur="${duration}s">
                   <mpath href="#${this.pathId}"/>
               </animateMotion>
           </circle>`;
@@ -64,6 +84,7 @@ export default class StraightSVG extends SVG {
 
     this.master.find(`#${this.svgId}`).attr("viewBox", this.getViewBoxValue());
     this.master.find(`#${this.pathId}`).attr("d", this.getPathData());
+    this.restart();
     this.show();
   }
 }

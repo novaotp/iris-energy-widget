@@ -1,18 +1,29 @@
 import { Coordinates, TWrapper } from "@app/interfaces";
 
 export default class Wrapper {
-  master: JQuery<HTMLElement>;
-  wrapper: JQuery<HTMLElement>;
+  private master: JQuery<HTMLElement>;
+  private wrapper: JQuery<HTMLElement>;
 
   constructor(master: JQuery<HTMLElement>, wrapper: TWrapper) {
     this.master = master;
     this.wrapper = this.master.find(`.${wrapper}-wrapper`);
   }
 
+  /** Checks if the wrapper is visible, returning true or false appropriately */
   public isVisible(): boolean {
     return this.wrapper.css("display") !== "none";
   }
 
+  /** Returns the current usage value of the wrapper */
+  public getValue(): number {
+    return Number(this.wrapper.find('.usage').html().split(" ")[0]);
+  }
+
+  /**
+   * Returns the center coordinates of the wrapper.
+   * Complex but works for every wrapper element, so
+   * this is the only way to get the center coordinates.
+   */
   public getCenterCoordinates(): Coordinates {
     let totalTop = this.wrapper.offset()!.top;
     let totalLeft = this.wrapper.offset()!.left;

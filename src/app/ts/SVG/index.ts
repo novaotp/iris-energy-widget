@@ -35,6 +35,12 @@ export default abstract class SVG {
   /** Updates the SVG. */
   public abstract update(): void;
 
+  /** Restarts the SVG. */
+  protected restart(): void {
+    this.master.find(`#${this.svgId}`).remove();
+    this.init();
+  }
+
   /** Get the viewbox in pixels */
   protected getViewBoxValue(): string {
     return `0 0 ${this.master.width()!} ${this.master.height()!}`;
