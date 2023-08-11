@@ -33,8 +33,12 @@ export default class StraightSVG extends SVG {
     return `M${from.x},${from.y} L${to.x},${to.y}`;
   }
 
-  /** Returns a normalized animation speed */
-  private getAnimationSpeed(): number {
+  /**
+   * Returns a normalized animation speed
+   * @deprecated In favor of a fixed speed.
+   * @see {@link getAnimationSpeed}
+   */
+  private getAnimationSpeed2(): number {
     const value = this.from.getValue();
 
     const minValue = 0;
@@ -48,6 +52,16 @@ export default class StraightSVG extends SVG {
 
     // Linearly map value to speed
     const speed = ((maxValue - clampedValue) / (maxValue - minValue)) * (minSpeed - maxSpeed) + maxSpeed;
+
+    return speed;
+  }
+
+  /** Returns a fixed speed between  */
+  private getAnimationSpeed(): number {
+    const randomValue = (0.5 - Math.random()) / 2; // Range between -0.25 and 0.25
+    const baseSpeed = 1.25;
+
+    const speed = baseSpeed + randomValue; // Speed between 1 and 1.5s
 
     return speed;
   }
