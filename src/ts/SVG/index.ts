@@ -46,7 +46,7 @@ export default abstract class SVG {
     const duration = this.getAnimationSpeed();
     const circleRadius = this.isMasterSizeUnderBreakpoint() ? 4 : 6;
     const keyTimes = "0;0.5;1"
-    const keySplines = "0.42 0 0.58 1;0.42 0 0.58 1"
+    const keySplines = "0.1 0 0.9 1;0.1 0 0.9 1"
 
     let svg = `
       <svg id=${this.svgId} class="svg-path" preserveAspectRatio="none" viewBox="${viewBoxValue}" xmlns="http://www.w3.org/2000/svg">
