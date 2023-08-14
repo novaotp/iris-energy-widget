@@ -10,6 +10,7 @@ Includes :
   - up to 7 different energy sources and 10 different datapoints.
   - Up to 8 different animations
   - Automatic resizing capabilities
+  - Automatic data updating capabilities with real-time data
 
 ## Development
 
