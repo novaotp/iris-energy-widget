@@ -15,7 +15,7 @@ Includes :
 
 The development scripts are in the ```src``` folder.
 
-If you'd like to use the code :¨
+If you'd like to use the code :
   - Fork the repo
   - Run ```npm run build```, a ```.dist``` folder will be generated.
   - Use the ```.dist/bundle.js``` for the javascript file, ```src/template.html``` for the html and ```src/style.css``` for the css.
