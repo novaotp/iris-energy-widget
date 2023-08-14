@@ -116,7 +116,7 @@
 }
 
 .gas {
-    border-color: rgb(36, 36, 36);
+    border-color: brown;
 }
 
 .water {
@@ -156,7 +156,7 @@
 
 /* MAIN ICONS END */
 
-/* EXPORTED AND IMPORTED SPECIAL CSS START */
+/* MULTIPLE DATAPOINTS PER ENERGY SOURCE SPECIAL CSS START */
 
 .inner-icon {
     font-size: 12px;
@@ -169,25 +169,27 @@
     align-items: center;
 }
 
-.exported-usage {
+.exported-usage, .exported-wrapper svg {
     color: rgb(35, 35, 255);
-}
-
-.exported svg {
     fill: rgb(35, 35, 255);
-    margin-right: 4px;
 }
 
-.imported-usage {
+.imported-usage, .imported-wrapper svg {
     color: rgb(100, 100, 255);
-}
-
-.imported svg {
     fill: rgb(100, 100, 255);
-    margin-right: 4px;
 }
 
-/* EXPORTED AND IMPORTED SPECIAL CSS END */
+.charging-usage, .charging-wrapper svg {
+    color: grey;
+    fill: grey;
+}
+
+.discharging-usage, .discharging-wrapper svg {
+    color: rgb(180, 180, 180);
+    fill: rgb(180, 180, 180);
+}
+
+/* MULTIPLE DATAPOINTS PER ENERGY SOURCE SPECIAL CSS END */
 
 /* ---- FLOWCHART END ---- */
 

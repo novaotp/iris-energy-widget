@@ -32,15 +32,15 @@ self.onInit = function () {
   resizer = new GenericResizer(self.ctx, datapoints);
   const master = self.ctx.$container.find('.master');
   svgs = [
-    new StraightSVG(master, 'grid', 'home', "blue"),
+    new StraightSVG(master, 'grid', 'home', "rgb(100, 100, 255)"),
     new StraightSVG(master, 'carbon', 'grid', "green"),
     new StraightSVG(master, 'solar', 'battery', "grey"),
     new StraightSVG(master, 'water', 'home', "lightblue"),
-    new StraightSVG(master, 'gas', 'home', "black"),
-    new CurvedSVG(master, 'solar', 'grid', 'red', 'left', 'top'),
-    new CurvedSVG(master, 'solar', 'home', 'yellow', 'right', 'top'),
-    new CurvedSVG(master, 'battery', 'grid', 'orange', 'left', 'bottom'),
-    new CurvedSVG(master, 'battery', 'home', 'brown', 'right', 'bottom'),
+    new StraightSVG(master, 'gas', 'home', "brown"),
+    new CurvedSVG(master, 'solar', 'grid', 'blue', 'left', 'top'),
+    new CurvedSVG(master, 'solar', 'home', 'orange', 'right', 'top'),
+    new CurvedSVG(master, 'battery', 'grid', 'rgb(180, 180, 180)', 'left', 'bottom'),
+    new CurvedSVG(master, 'battery', 'home', 'lightgrey', 'right', 'bottom'),
   ]
 }
 
