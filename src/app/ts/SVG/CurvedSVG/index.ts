@@ -23,7 +23,7 @@ export default class CurvedSVG extends SVG {
     this.toOffset = toOffset;
   }
 
-  private getCurvaturePoint(): number {
+  /* private getCurvaturePoint(): number {
     return this.toOffset.y < 0 ? 35 : 65;
   }
 
@@ -34,5 +34,12 @@ export default class CurvedSVG extends SVG {
     const curvaturePoint = this.getCurvaturePoint();
 
     return `M${from.x},${from.y} L${curvaturePoint},${from.y} Q${from.y},${to.x} ${to.x},${curvaturePoint} L${to.x},${to.y}`;
+  } */
+
+  protected generatePathData(): string {
+    const from: Coordinates = this.from.getCenterCoordinates();
+    const to: Coordinates = this.to.getCenterCoordinates();
+
+    return `M${from.x},${from.y} L${to.x},${to.y}`;
   }
 }

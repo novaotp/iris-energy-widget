@@ -41,7 +41,7 @@ self.onInit = function () {
     new CurvedSVG(master, 'solar', 'grid', 'red', { x: -offset, y: 0 }, { x: 0, y: offset }),
     new CurvedSVG(master, 'solar', 'home', 'yellow', { x: offset, y: 0 }, { x: 0, y: offset }),
     new CurvedSVG(master, 'battery', 'grid', 'orange', { x: -offset, y: 0 }, { x: 0, y: -offset }),
-    new CurvedSVG(master, 'battery', 'grid', 'brown', { x: offset, y: 0 }, { x: 0, y: -offset }),
+    new CurvedSVG(master, 'battery', 'home', 'brown', { x: offset, y: 0 }, { x: 0, y: -offset }),
   ]
 }
 
