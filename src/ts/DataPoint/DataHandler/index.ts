@@ -43,17 +43,33 @@ export default class DataHandler {
     return this.data!.dataKey.decimals;
   }
 
-  /** Get the data's value, rounded if decimals is not null */
+  /**
+   * Helper function to either round or fix a number based on the provided precision
+   * @param value The number to round
+   * @param precision The number of decimals to fix to
+   * @important If the precision is 0, the value will be rounded to the nearest integer
+   */
+  private roundValue(value: number, precision: number | null): number {
+    if (precision === null) return value;
+    return precision === 0 ? Math.round(value) : parseFloat(value.toFixed(precision));
+  }
+
+  /** Get the data's value, fixed/rounded if decimals is not null */
   private getValue(): any {
     const rawValue = this.data!.data[0][1];
     const precision = this.getDecimals();
 
     if (typeof rawValue === 'number') {
-      return precision ? parseFloat(rawValue.toFixed(precision)) : rawValue;
+      return this.roundValue(rawValue, precision);
     }
 
     if (typeof rawValue === 'string') {
-      return isNaN(Number(rawValue)) ? rawValue : precision ? parseFloat(parseFloat(rawValue).toFixed(precision)) : parseFloat(rawValue);
+      const numberValue = parseFloat(rawValue);
+      if (!isNaN(numberValue)) {
+        return this.roundValue(numberValue, precision);
+      } else {
+        return rawValue;
+      }
     }
 
     if (typeof rawValue === 'object') {
@@ -62,7 +78,6 @@ export default class DataHandler {
 
     return rawValue;
   }
-
   /** Get the data to display */
   public getUsage(): string {
     return `${this.getValue()} ${this.getUnits()}`;
