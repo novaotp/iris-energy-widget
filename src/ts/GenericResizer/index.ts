@@ -1,5 +1,5 @@
-import WidgetContext, { FontMapping } from "@app/interfaces";
-import DataPoint from "@app/ts/DataPoint";
+import WidgetContext, { FontMapping } from "@src/interfaces";
+import DataPoint from "@src/ts/DataPoint";
 import Renderer from "../DataPoint/Renderer"; // Only for linking purposes
 import { Label } from "../../types";
 

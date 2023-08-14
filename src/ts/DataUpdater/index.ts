@@ -1,4 +1,4 @@
-import WidgetContext, { DatasourceData } from "@app/interfaces";
+import WidgetContext, { DatasourceData } from "@src/interfaces";
 import DataPoint from "../DataPoint";
 import { Label } from "../../types";
 

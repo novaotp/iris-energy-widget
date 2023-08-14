@@ -1,5 +1,5 @@
-import { Coordinates } from "@app/interfaces";
-import { TWrapper } from "@app/types";
+import { Coordinates } from "@src/interfaces";
+import { TWrapper } from "@src/types";
 
 export default class Wrapper {
   private master: JQuery<HTMLElement>;

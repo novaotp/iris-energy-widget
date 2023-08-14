@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import Wrapper from "./Wrapper";
-import { TWrapper } from "@app/types";
+import { TWrapper } from "@src/types";
 
 /** Represents the base class for SVG elements. */
 export default abstract class SVG {

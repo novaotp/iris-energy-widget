@@ -1,1 +1,0 @@
-Improve the SVGs in temp_svg.html (loads for 15s)

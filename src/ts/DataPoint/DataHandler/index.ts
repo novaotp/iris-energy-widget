@@ -1,4 +1,4 @@
-import { DatasourceData } from "@app/interfaces";
+import { DatasourceData } from "@src/interfaces";
 
 /** An class to handle the setting, retrieval and checking of the data */
 export default class DataHandler {

@@ -1,4 +1,4 @@
-import { DatasourceData } from "@app/interfaces";
+import { DatasourceData } from "@src/interfaces";
 import DataHandler from "./DataHandler";
 import Renderer from "./Renderer";
 

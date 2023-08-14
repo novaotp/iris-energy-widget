@@ -1,6 +1,6 @@
-import { Coordinates } from "@app/interfaces";
+import { Coordinates } from "@src/interfaces";
+import { TOffsetDirection, TWrapper } from "@src/types";
 import SVG from "..";
-import { TOffsetDirection, TWrapper } from "@app/types";
 
 /** A derived SVG with a curved path */
 export default class CurvedSVG extends SVG {

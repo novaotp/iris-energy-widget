@@ -1,18 +1,17 @@
 {
   "compilerOptions": {
     "lib": ["dom", "esnext"],
-    "outDir": "./dist/",
+    "outDir": "./.dist/",
     "sourceMap": true,
     "strict": true,
     "module": "es6",
     "moduleResolution": "node",
     "target": "es5",
     "esModuleInterop": true,
+    "baseUrl": ".",
     "paths": {
-      "@app/*": ["./src/app/*"]
+      "@src/*": ["src/*"],
     }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

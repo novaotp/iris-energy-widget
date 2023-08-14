@@ -6,11 +6,11 @@ Voici les data points avec lesquels le widget travaille.
 
 ### Schéma
 
-![Visual Schema of the datapoints](../../assets/schema_datapoints.png)
+![Visual Schema of the datapoints](./assets/schema_datapoints.png)
 
 ### Nomenclature
 
-![Visual Image of the datapoints](../../assets/noms_datapoints.png)
+![Visual Image of the datapoints](./assets/noms_datapoints.png)
 
 ## Description
 
