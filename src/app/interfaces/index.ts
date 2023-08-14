@@ -20,10 +20,11 @@ export default interface WidgetContext {
 }
 
 export interface Coordinates {
-  /** The horizontal coordinate */
   x: number;
-  /** The vertical coordinate */
   y: number;
 }
 
-export type TWrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water';
+export interface FontMapping {
+  max: number,
+  size: string,
+}

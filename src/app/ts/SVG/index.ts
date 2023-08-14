@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import Wrapper from "./Wrapper";
-import { TWrapper } from "@app/interfaces";
+import { TWrapper } from "@app/types";
 
 /** Represents the base class for SVG elements. */
 export default abstract class SVG {
@@ -44,12 +44,15 @@ export default abstract class SVG {
     const pathData = this.generatePathData();
     const viewBoxValue = this.getViewBoxValue();
     const duration = this.getAnimationSpeed();
+    const circleRadius = this.isMasterSizeUnderBreakpoint() ? 4 : 6;
+    const keyTimes = "0;0.5;1"
+    const keySplines = "0.42 0 0.58 1;0.42 0 0.58 1"
 
     let svg = `
       <svg id=${this.svgId} class="svg-path" preserveAspectRatio="none" viewBox="${viewBoxValue}" xmlns="http://www.w3.org/2000/svg">
           <path id="${this.pathId}" d="${pathData}" stroke="${this.color}" fill="transparent" stroke-width="2"/>
-          <circle id="myCircle" r="6" fill="${this.color}">
-              <animateMotion repeatCount="indefinite" dur="${duration}s">
+          <circle id="myCircle" r="${circleRadius}" fill="${this.color}">
+              <animateMotion repeatCount="indefinite" dur="${duration}s" keyTimes="${keyTimes}" keySplines="${keySplines}">
                   <mpath href="#${this.pathId}"/>
               </animateMotion>
           </circle>
@@ -68,6 +71,11 @@ export default abstract class SVG {
 
     this.restart();
     this.show();
+  }
+
+  protected isMasterSizeUnderBreakpoint(): boolean {
+    const breakpoint = 350
+    return (this.master.height()! < breakpoint || this.master.width()! < breakpoint)
   }
 
   /** Adds the SVG in the DOM */

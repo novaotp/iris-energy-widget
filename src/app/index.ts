@@ -31,17 +31,16 @@ self.onInit = function () {
   updater = new DataUpdater(self.ctx, datapoints);
   resizer = new GenericResizer(self.ctx, datapoints);
   const master = self.ctx.$container.find('.master');
-  const offset = 10;
   svgs = [
     new StraightSVG(master, 'grid', 'home', "blue"),
     new StraightSVG(master, 'carbon', 'grid', "green"),
     new StraightSVG(master, 'solar', 'battery', "grey"),
     new StraightSVG(master, 'water', 'home', "lightblue"),
     new StraightSVG(master, 'gas', 'home', "black"),
-    new CurvedSVG(master, 'solar', 'grid', 'red', { x: -offset, y: 0 }, { x: 0, y: offset }),
-    new CurvedSVG(master, 'solar', 'home', 'yellow', { x: offset, y: 0 }, { x: 0, y: offset }),
-    new CurvedSVG(master, 'battery', 'grid', 'orange', { x: -offset, y: 0 }, { x: 0, y: -offset }),
-    new CurvedSVG(master, 'battery', 'home', 'brown', { x: offset, y: 0 }, { x: 0, y: -offset }),
+    new CurvedSVG(master, 'solar', 'grid', 'red', 'left', 'top'),
+    new CurvedSVG(master, 'solar', 'home', 'yellow', 'right', 'top'),
+    new CurvedSVG(master, 'battery', 'grid', 'orange', 'left', 'bottom'),
+    new CurvedSVG(master, 'battery', 'home', 'brown', 'right', 'bottom'),
   ]
 }
 
@@ -53,6 +52,10 @@ self.onDataUpdated = function () {
 }
 
 self.onResize = function () {
+  const breakpoint = 350
+  if (self.ctx.$container.width()! < breakpoint || self.ctx.$container.height()! < breakpoint) {
+    self.ctx.$container.width(breakpoint).height(breakpoint)
+  }
   resizer.resize();
   updateSVGs();
 }

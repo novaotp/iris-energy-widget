@@ -1,5 +1,6 @@
-import { Coordinates, TWrapper } from "@app/interfaces";
+import { Coordinates } from "@app/interfaces";
 import SVG from "..";
+import { TWrapper } from "@app/types";
 
 /** A derived SVG with a straight path */
 export default class StraightSVG extends SVG {

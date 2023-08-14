@@ -1,4 +1,4 @@
-import WidgetContext from "@app/interfaces";
+import WidgetContext, { FontMapping } from "@app/interfaces";
 import DataPoint from "@app/ts/DataPoint";
 import Renderer from "../DataPoint/Renderer"; // Only for linking purposes
 import { Label } from "../../types";
@@ -56,9 +56,9 @@ export default class GenericResizer {
   /** True if the last row (battery and water) is empty, false otherwise. */
   private isLastRowEmpty(): boolean {
     if (this.datapoints.BATTPERCENT.isDataEmpty() &&
-        this.datapoints.ENRBATTCHRG.isDataEmpty() &&
-        this.datapoints.ENRBATTDISCH.isDataEmpty() &&
-        this.datapoints.WATER.isDataEmpty()
+      this.datapoints.ENRBATTCHRG.isDataEmpty() &&
+      this.datapoints.ENRBATTDISCH.isDataEmpty() &&
+      this.datapoints.WATER.isDataEmpty()
     ) {
       return true;
     }
@@ -80,9 +80,9 @@ export default class GenericResizer {
   /** True if the middle column (solar, battery) is empty, false otherwise. */
   private isMiddleColumnEmpty(): boolean {
     if (this.datapoints.BATTPERCENT.isDataEmpty() &&
-        this.datapoints.ENRBATTCHRG.isDataEmpty() &&
-        this.datapoints.ENRBATTDISCH.isDataEmpty() &&
-        this.datapoints.ENRTOTPROD.isDataEmpty()
+      this.datapoints.ENRBATTCHRG.isDataEmpty() &&
+      this.datapoints.ENRBATTDISCH.isDataEmpty() &&
+      this.datapoints.ENRTOTPROD.isDataEmpty()
     ) {
       return true;
     }
@@ -105,10 +105,31 @@ export default class GenericResizer {
     this.circles.css("width", minSize).css("height", minSize);
   }
 
+  /** Resizes the fonts after reaching a breakpoint */
+  private resizeFontSizes(): void {
+    const sizeMappings: FontMapping[] = [
+      { max: 400, size: '10px' },
+      { max: 600, size: '12px' }
+    ];
+
+    const width = self.ctx.$container.width()!;
+    const height = self.ctx.$container.height()!;
+
+    for (let mapping of sizeMappings) {
+      if (width < mapping.max || height < mapping.max) {
+        this.ctx.$container.find('.inner-icon, .usage').css("font-size", mapping.size);
+        return; // Return if the font size has been changed
+      }
+    }
+
+    this.ctx.$container.find('.inner-icon, .usage').css("font-size", '14px'); // Set the font size to 14px by default
+  }
+
   /** Resizes everything */
   public resize() {
     this.resizeRows();
     this.resizeColumns();
     this.resizeCircles();
+    this.resizeFontSizes();
   }
 }
