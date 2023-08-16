@@ -1,10 +1,18 @@
 import { Coordinates } from "@src/interfaces";
 import { TWrapper } from "@src/types";
 
+/** A class that gives a wrapper element some utility functions */
 export default class Wrapper {
+  /** The master JQuery element */
   private master: JQuery<HTMLElement>;
+  /** The wrapper JQuery element */
   private wrapper: JQuery<HTMLElement>;
 
+  /**
+   * Initializes a new instance of the Wrapper class.
+   * @param master The master JQuery element
+   * @param wrapper The wrapper JQuery element
+   */
   constructor(master: JQuery<HTMLElement>, wrapper: TWrapper) {
     this.master = master;
     this.wrapper = this.master.find(`.${wrapper}-wrapper`);

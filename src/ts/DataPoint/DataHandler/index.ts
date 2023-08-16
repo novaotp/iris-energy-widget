@@ -2,13 +2,9 @@ import { DatasourceData } from "@src/interfaces";
 
 /** An class to handle the setting, retrieval and checking of the data */
 export default class DataHandler {
-  /**
-   * @param data The data
-   */
+  /** The data */
   public data: DatasourceData | undefined;
-  /**
-   * @param isDataEmpty A property that indicates wether the data is empty or not
-   */
+  /** A property that indicates wether the data is empty or not */
   public isDataEmpty: boolean = false;
 
   /**
@@ -25,8 +21,8 @@ export default class DataHandler {
   }
 
   /**
-   * Sets the data to a new one
-   * @param newData The new data object or undefined
+   * Sets the data to a new one or undefined
+   * @param newData The new data object
    */
   public setDataObject(newData: DatasourceData | undefined): void {
     this.data = newData;

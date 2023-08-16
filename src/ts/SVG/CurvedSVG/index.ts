@@ -10,6 +10,7 @@ export default class CurvedSVG extends SVG {
   private toOffsetDirection: TOffsetDirection;
 
   /**
+   * Initializes a new instance of the CurvedSVG class.
    * @param master The master container of the widget.
    * @param from The origin wrapper name of the SVG.
    * @param to The destination wrapper name of the SVG.
@@ -24,6 +25,11 @@ export default class CurvedSVG extends SVG {
     this.toOffsetDirection = toOffsetDirection;
   }
 
+  /**
+   * Returns the offset coordinates based on the offset and direction.
+   * @param offset The offset of the SVG.
+   * @param offsetDirection The offset direction of the SVG.
+   */
   private getCoordinatesFromOffsetDirection(offset: number, offsetDirection: TOffsetDirection): Coordinates {
     switch (offsetDirection) {
       case 'top':

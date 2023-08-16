@@ -5,37 +5,23 @@ import { Label } from "../../types";
 
 /**
  * The class responsible for overall responsiveness.
- * For wrappers' displaying, look into the Datapoint's 
- * {@link Renderer} class.
+ * For the wrappers' displaying, look into the
+ * Datapoint's {@link Renderer} class.
  */
 export default class GenericResizer {
-  /**
-   * @param ctx The widget context
-   */
+  /** The widget context */
   private ctx: WidgetContext;
-  /**
-   * @param datapoints The datapoints
-   */
+  /** The datapoints */
   private datapoints: Record<Label, DataPoint>
-  /**
-   * @param rows The JQuery element for the rows
-   */
+  /** The JQuery element for the rows */
   private rows: JQuery<HTMLElement>;
-  /**
-   * @param flowchart The JQuery element for the flowchart
-   */
+  /** The JQuery element for the flowchart */
   private flowchart: JQuery<HTMLElement>;
-  /**
-   * @param wrappers The JQuery element for the wrappers
-   */
+  /** The JQuery element for the wrappers */
   private wrappers: JQuery<HTMLElement>;
-  /**
-   * @param circles The JQuery element for the circles
-   */
+  /** The JQuery element for the circles */
   private circles: JQuery<HTMLElement>;
-  /**
-   * @param row3 The JQuery element for the row3
-   */
+  /** The JQuery element for the row3 */
   private row3: JQuery<HTMLElement>;
 
   /**
@@ -67,7 +53,7 @@ export default class GenericResizer {
   }
 
   /** Resizes the rows based on the last row */
-  private resizeRows() {
+  private resizeRows(): void {
     if (this.isLastRowEmpty()) {
       this.rows.css("height", this.flowchart.height()! / 2)
       this.row3.css("display", "none")
@@ -91,7 +77,7 @@ export default class GenericResizer {
   }
 
   /** Resizes the columns based on the middle one */
-  private resizeColumns() {
+  private resizeColumns(): void {
     if (this.isMiddleColumnEmpty()) {
       this.wrappers.css("width", this.flowchart.width()! / 2)
     } else {
@@ -100,14 +86,14 @@ export default class GenericResizer {
   }
 
   /** Resizes the circles based on the wrapper's size */
-  private resizeCircles() {
+  private resizeCircles(): void {
     const minSize = Math.min(this.wrappers.width()!, this.wrappers.height()!) * 0.7;
     this.circles.css("width", minSize).css("height", minSize);
   }
 
   /** Resizes the fonts after reaching a breakpoint */
-  private resizeFontSizes(): void {
-    const sizeMappings: FontMapping[] = [
+  private handleFontSizes(): void {
+    const fontMappings: FontMapping[] = [
       { max: 400, size: '10px' },
       { max: 600, size: '12px' }
     ];
@@ -115,7 +101,7 @@ export default class GenericResizer {
     const width = self.ctx.$container.width()!;
     const height = self.ctx.$container.height()!;
 
-    for (let mapping of sizeMappings) {
+    for (let mapping of fontMappings) {
       if (width < mapping.max || height < mapping.max) {
         this.ctx.$container.find('.inner-icon, .usage').css("font-size", mapping.size);
         return; // Return if the font size has been changed
@@ -126,10 +112,10 @@ export default class GenericResizer {
   }
 
   /** Resizes everything */
-  public resize() {
+  public resize(): void {
     this.resizeRows();
     this.resizeColumns();
     this.resizeCircles();
-    this.resizeFontSizes();
+    this.handleFontSizes();
   }
 }

@@ -1,12 +1,8 @@
 /** A class to handle the rendering of the data */
 export default class Renderer {
-  /**
-   * @param wrapper The JQuery wrapper object
-   */
+  /** The JQuery wrapper object */
   private wrapper: JQuery<HTMLElement>;
-  /**
-   * @param superWrapper A JQuery wrapper object that has multiple datapoints
-   */
+  /** A JQuery wrapper object that has multiple datapoints */
   private superWrapper: JQuery<HTMLElement> | undefined;
 
   /**
@@ -18,28 +14,18 @@ export default class Renderer {
     this.superWrapper = superWrapper;
   }
 
-  /**
-   * Displays the latest data on the screen
-   * @param show True to show data, false for an empty string
-   * @returns The datapoint object
-   */
-  private hideData(): this {
+  /** Hides the data on the screen */
+  private hideData(): void {
     this.wrapper.find('.usage').html("");
-    return this;
   }
 
-  /**
-   * Displays the latest data on the screen
-   * @param show True to show data, false for an empty string
-   * @returns The datapoint object
-   */
-  private showData(data: string): this {
+  /** Displays the data on the screen */
+  private showData(data: string): void {
     this.wrapper.find('.usage').html(data);
-    return this;
   }
 
   /** Shows the wrapper */
-  private showWrapper(): this {
+  private showWrapper(): void {
     if (this.superWrapper) {
       this.superWrapper.css("display", "flex")
       this.superWrapper.find('.icon').css("display", "flex")
@@ -49,11 +35,10 @@ export default class Renderer {
       this.wrapper.css("display", "flex")
       this.wrapper.find('.icon').css("display", "flex")
     }
-    return this;
   }
 
   /** Hides the wrapper */
-  private hideWrapper(): this {
+  private hideWrapper(): void {
     if (this.superWrapper) {
       this.superWrapper.css("display", "none")
       this.superWrapper.find('.icon').css("display", "none")
@@ -63,12 +48,12 @@ export default class Renderer {
       this.wrapper.css("display", "none")
       this.wrapper.find('.icon').css("display", "none")
     }
-    return this;
   }
 
   /** Hides the data from the screen */
   public hideAll(): void {
-    this.hideData().hideWrapper();
+    this.hideData()
+    this.hideWrapper();
   }
 
   /**
@@ -76,6 +61,7 @@ export default class Renderer {
    * @param data The data to show
    */
   public showAll(data: string): void {
-    this.showData(data).showWrapper();
+    this.showData(data)
+    this.showWrapper();
   }
 }

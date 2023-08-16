@@ -4,13 +4,9 @@ import Renderer from "./Renderer";
 
 /** A high-level class for handling a datapoint */
 export default class DataPoint {
-  /**
-   * @param dataHandler The class responsible for handling the data in the datapoint class
-   */
+  /** The class responsible for handling the data in the datapoint class */
   private dataHandler: DataHandler;
-  /**
-   * @param renderer The class responsible for rendering the datapoint's data
-   */
+  /** The class responsible for rendering the datapoint's data */
   private renderer: Renderer;
 
   /**
@@ -34,7 +30,7 @@ export default class DataPoint {
   }
 
   /**
-   * Enable the datapoint
+   * Enables the datapoint with the given data
    * @param newData The latest data
    */
   public enable(newData: DatasourceData): void {
@@ -42,7 +38,7 @@ export default class DataPoint {
     this.renderer.showAll(this.dataHandler.getUsage());
   }
 
-  /** Disable the datapoint */
+  /** Disables the datapoint */
   public disable(): void {
     this.dataHandler.setDataObject(undefined);
     this.renderer.hideAll();

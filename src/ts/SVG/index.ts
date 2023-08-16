@@ -1,4 +1,4 @@
-import { v4 } from "uuid";
+import uuid from "uuid";
 import Wrapper from "./Wrapper";
 import { TWrapper } from "@src/types";
 
@@ -25,8 +25,8 @@ export default abstract class SVG {
    * @param color The color for the SVG.
    */
   constructor(master: JQuery<HTMLElement>, from: TWrapper, to: TWrapper, color: string) {
-    this.svgId = v4();
-    this.pathId = v4();
+    this.svgId = uuid.v4();
+    this.pathId = uuid.v4();
 
     this.master = master;
     this.from = new Wrapper(master, from);
@@ -73,6 +73,10 @@ export default abstract class SVG {
     this.show();
   }
 
+  /**
+   * Checks if the master wrapper's size is under a
+   * certain breakpoint.
+   */
   protected isMasterSizeUnderBreakpoint(): boolean {
     const breakpoint = 350
     return (this.master.height()! < breakpoint || this.master.width()! < breakpoint)

@@ -4,13 +4,9 @@ import { Label } from "../../types";
 
 /** The class responsible for ensuring that the data on the screen is up to date. */
 export default class DataUpdater {
-  /**
-   * @param ctx The widget context
-   */
+  /** The widget context */
   private ctx: WidgetContext;
-  /**
-   * @param datapoints The default datapoints
-   */
+  /** The default datapoints */
   private datapoints: Record<Label, DataPoint>;
 
   /**
@@ -28,7 +24,7 @@ export default class DataUpdater {
   }
 
   /** Disable all the datapoints */
-  private disableDatapoints() {
+  private disableDatapoints(): void {
     for (const datapoint of Object.values(this.datapoints)) {
       datapoint.disable()
     }
@@ -49,7 +45,7 @@ export default class DataUpdater {
   }
 
   /** Enable specific datapoints */
-  private enableSpecificDatapoints() {
+  private enableSpecificDatapoints(): void {
     const getLabelFromData = (data: DatasourceData): Label => { return data.dataKey.label.split('-').at(-1)! as Label; }
 
     const contextData: DatasourceData[] = this.getContextData();
