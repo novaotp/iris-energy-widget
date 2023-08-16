@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import * as uuid from "uuid";
 import Wrapper from "./Wrapper";
 import { TWrapper } from "@src/types";
 
