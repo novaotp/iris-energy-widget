@@ -2,13 +2,13 @@
 
 A simple energy widget with real-time data.
 
-<img src="./assets/live_energy_widget.gif" width="300px" />
+<img src="./assets/energy_widget.png" width="300px" />
 
 ## Features
 
 Includes :
   - up to 7 different energy sources and 10 different datapoints.
-  - Up to 8 different animations
+  - Up to 9 different animations
   - Automatic resizing capabilities
   - Automatic data updating capabilities with real-time data
 
