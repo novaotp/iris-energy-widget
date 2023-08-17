@@ -23,11 +23,11 @@ module.exports = {
     minimize: true,
     minimizer: [new TerserPlugin({
       terserOptions: {
-        /* compress: {
+        compress: {
           drop_console: true,  // Drops console statements
           drop_debugger: true, // Drops debugger statements
           pure_funcs: ['console.log'] // Removes the specific calls
-        }, */
+        },
         mangle: {
           // Mangle props here if needed
         },
