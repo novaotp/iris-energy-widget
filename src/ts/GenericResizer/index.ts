@@ -94,8 +94,10 @@ export default class GenericResizer {
   /** Resizes the fonts after reaching a breakpoint */
   private handleFontSizes(): void {
     const fontMappings: FontMapping[] = [
-      { max: 400, size: '10px' },
-      { max: 600, size: '12px' }
+      { max: 400, size: '8px' },
+      { max: 500, size: '10px' },
+      { max: 600, size: '12px' },
+      { max: 700, size: '14px' }
     ];
 
     const width = self.ctx.$container.width()!;
@@ -108,7 +110,7 @@ export default class GenericResizer {
       }
     }
 
-    this.ctx.$container.find('.inner-icon, .usage').css("font-size", '14px'); // Set the font size to 14px by default
+    this.ctx.$container.find('.inner-icon, .usage').css("font-size", '16px'); // Set the font size to 16px by default
   }
 
   /** Resizes everything */

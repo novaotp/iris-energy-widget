@@ -52,7 +52,7 @@ export default class CurvedSVG extends SVG {
     const from: Coordinates = this.from.getCenterCoordinates(fromOffset);
     const to: Coordinates = this.to.getCenterCoordinates(toOffset);
 
-    const curveMagnitude = 60;
+    const curveMagnitude = (this.master.height()! > 600 || this.master.width()! > 600) ? 80 : 60;
 
     // Determine points before and after curve for the lines
     const startCurvePoint = {
