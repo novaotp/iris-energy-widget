@@ -29,6 +29,10 @@ La variable ```self.ctx.defaultSubscription``` contient toutes les données de s
 
 PS: La [documentation officielle](https://thingsboard.io/docs/user-guide/contribution/widgets-development/#subscription-object)
 
+### settings
+
+La variable ```self.ctx.settings``` contient les données du schéma se trouvant dans le TAB "Settings Schema" de Thingsboard.
+
 ## Fonctions propriétaires
 
 ### onInit()
