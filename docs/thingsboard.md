@@ -1,52 +1,50 @@
 # Thingsboard
 
-Bienvenue à la documentation inofficielle de Thingsboard. La [documentation de Thingsboard](https://thingsboard.io/docs/user-guide/contribution/widgets-development/) étant _presque_ inexistante, vous trouverez ici l'explication de certains éléments se trouvant dans le widget.
+Welcome to the un-official Thingsboard documentation. The [official Thingsboard documentation](https://thingsboard.io/docs/user-guide/contribution/widgets-development/) being _almost_ empty, you'll find here some explanations on some elements I've worked with in this widget.
 
-- Auteur : Sajidur Rahman
-- Dernière mise à jour : 14.08.2023
+- Author : Sajidur Rahman
+- Last update : 17.08.2023
 
-Version Javascript : ES5
+Javascript version in Thingsboard : ES5
 
 ## ctx
 
-Le contexte du widget.
+The [widget context](https://github.com/thingsboard/thingsboard/blob/13e6b10b7ab830e64d31b99614a9d95a1a25928a/ui-ngx/src/app/modules/home/models/widget-component.models.ts#L83)
 
 ## Widget API
 
 ### $container
 
-La variable ```self.ctx.$container``` ([jQuery](https://api.jquery.com/)) permet de référencer le dom du widget.
+The ```self.ctx.$container``` variable is a [jQuery element](https://api.jquery.com/) to reference the DOM inside the widget itself.
 
-Remarque : Ne pas utiliser la variable ```document```.
+Remarque : Do not use ```document``` if you want to instanciate multiple widgets.
 
 ### detectChanges()
 
-La fonction ```self.ctx.detectChanges()``` permet de détecter les changements. À utiliser dans [self.onDataUpdated()](#ondataupdated)
+The ```self.ctx.detectChanges()``` function detects any changes. Use it in [self.onDataUpdated()](#ondataupdated)
 
 ### defaultSubscription
 
-La variable ```self.ctx.defaultSubscription``` contient toutes les données de souscription, en lien avec le type de widget développé.
-
-PS: La [documentation officielle](https://thingsboard.io/docs/user-guide/contribution/widgets-development/#subscription-object)
+The ```self.ctx.defaultSubscription``` variable contains all the [data subscription](https://thingsboard.io/docs/user-guide/contribution/widgets-development/#subscription-object), depending on the widget type.
 
 ### settings
 
-La variable ```self.ctx.settings``` contient les données du schéma se trouvant dans le TAB "Settings Schema" de Thingsboard.
+The ```self.ctx.settings``` variable contains data about the schema in the ["Settings Schema" tab](https://thingsboard.io/docs/user-guide/contribution/widgets-development/#settings-schema-section) in Thingsboard.
 
-## Fonctions propriétaires
+## Proprietary functions
 
 ### onInit()
 
-La fonction ```self.onInit()``` se lance **une** fois - à l'initialisation du widget.
+The ```self.onInit()``` function is triggered once.
 
 ### onDataUpdated()
 
-La fonction ```self.onDataUpdated()``` se lance **chaque** fois qu'un changement de données est détecté.
-
-De plus, les dernières données sont accessibles via l'object [defaultSubscription](#defaultsubscription).
+The ```self.onDataUpdated()``` function triggers every time the data changes. Look into the [defaultSubscription](#defaultsubscription).
 
 ### onResize()
 
-La fonction ```self.onResize()``` se lance **chaque** fois que le widget est redimensionné.
+The ```self.onResize()``` function triggers every time the widget is resized. You can use jQuery to access the props.
 
-Les nouvelles dimensions sont accessibles via le [container](#container).
+### onEditModeChanged()
+
+The ```self.onEditModeChanged()``` function triggers every time you enter or leave the edit mode.
