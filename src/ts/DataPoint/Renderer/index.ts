@@ -6,6 +6,7 @@ export default class Renderer {
   private superWrapper: JQuery<HTMLElement> | undefined;
 
   /**
+   * Initializes a new instance of the Renderer class.
    * @param wrapper The JQuery wrapper object
    * @param superWrapper A JQuery wrapper object that has multiple datapoints (optional)
    */
@@ -50,6 +51,7 @@ export default class Renderer {
     }
   }
 
+  /** Sets the color of the wrapper/superWrapper */
   public setColor(color: string) {
     if (this.superWrapper) {
       this.superWrapper.find('.circle').css("border-color", color);

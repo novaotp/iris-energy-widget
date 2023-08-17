@@ -11,4 +11,5 @@ export type TOffsetDirection = 'top' | 'bottom' | 'left' | 'right';
  */
 export type TWrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water';
 
+/** The different svg paths label */
 export type SVGLabel = "carbonToGrid" | "gridToHome" | "solarToBattery" | "gasToHome" | "waterToHome" | "solarToGrid" | "solarToHome" | "batteryToGrid" | "batteryToHome";

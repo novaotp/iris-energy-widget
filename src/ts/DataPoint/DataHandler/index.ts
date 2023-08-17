@@ -8,6 +8,7 @@ export default class DataHandler {
   public isDataEmpty: boolean = false;
 
   /**
+   * Initializes a new instance of the DataHandler class.
    * @param data The data object to handle
    */
   constructor(data: DatasourceData | undefined) {

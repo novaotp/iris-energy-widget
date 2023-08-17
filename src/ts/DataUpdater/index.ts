@@ -10,6 +10,7 @@ export default class DataUpdater {
   private datapoints: Record<Label, DataPoint>;
 
   /**
+   * Initializes a new instance of the DataUpdater class.
    * @param ctx The widget context
    * @param datapoints The default datapoints
    */

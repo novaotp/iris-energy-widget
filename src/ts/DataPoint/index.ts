@@ -10,6 +10,7 @@ export default class DataPoint {
   private renderer: Renderer;
 
   /**
+   * Initializes a new instance of the DataPoint class.
    * @param dataObject The data object
    * @param wrapper The JQuery wrapper object
    * @param superWrapper A JQuery wrapper object that has multiple datapoints
@@ -29,6 +30,10 @@ export default class DataPoint {
     return this.dataHandler.data!;
   }
 
+  /**
+   * A high level function to set the border color
+   * @param color The new border color
+   */
   public setBorderColor(color: string): void {
     this.renderer.setColor(color)
   }

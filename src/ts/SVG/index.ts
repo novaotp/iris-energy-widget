@@ -73,14 +73,12 @@ export default abstract class SVG {
     this.show();
   }
 
+  /** Set the new color of the SVG path */
   public setNewColor(color: string): void {
     this.color = color;
   }
 
-  /**
-   * Checks if the master wrapper's size is under a
-   * certain breakpoint.
-   */
+  /** Checks if the master wrapper's size is under a certain breakpoint. */
   protected isMasterSizeUnderBreakpoint(): boolean {
     const breakpoint = 350
     return (this.master.height()! < breakpoint || this.master.width()! < breakpoint)

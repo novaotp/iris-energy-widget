@@ -11,12 +11,14 @@ let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
 let resizer: GenericResizer;
 let svgs: Record<SVGLabel, SVG>;
+/** Function to update the SVGs and their color. Should be moved elsewhere later. */
 let updateSVGs = (ctx: WidgetContext): void => {
   for (const [label, svg] of Object.entries(svgs)) {
     svg.setNewColor(ctx.settings.svgPathsColor?.[label as SVGLabel] ?? '#000');
     svg.update();
   }
 };
+/** Function to update the Datapoints' color. Should be moved elsewhere later. */
 let updateDatapointsColor = (ctx: WidgetContext): void => {
   let colorLabel: string;
   for (const [label, dataPoint] of Object.entries(datapoints)) {
@@ -52,6 +54,7 @@ let updateDatapointsColor = (ctx: WidgetContext): void => {
     dataPoint.setBorderColor(ctx.settings.circleBorderColor?.[colorLabel as CircleBorderColor] ?? '#000')
   }
 }
+/** Function to update the Datapoints' inner colors if they have a superWrapper. Should be moved elsewhere later. */
 let updateInnerColors = (ctx: WidgetContext): void => {
   const master = ctx.$container.find('.master');
   master.find('.exported-wrapper').find('.inner-icon, .usage').css("color", ctx.settings.specialInnerColor?.ENERGYEXP ?? '#000').css("fill", ctx.settings.specialInnerColor?.ENERGYEXP ?? '#000');
@@ -78,7 +81,7 @@ self.onInit = function () {
   resizer = new GenericResizer(self.ctx, datapoints);
   const master = self.ctx.$container.find('.master');
   svgs = {
-    gridToHome: new StraightSVG(master, 'grid', 'home', "#000"), // Added default color to all
+    gridToHome: new StraightSVG(master, 'grid', 'home', "#000"), // Added default color to all, should be removed later.
     carbonToGrid: new StraightSVG(master, 'carbon', 'grid', "#000"),
     solarToBattery: new StraightSVG(master, 'solar', 'battery', "#000"),
     waterToHome: new StraightSVG(master, 'water', 'home', "#000"),
@@ -88,14 +91,12 @@ self.onInit = function () {
     batteryToGrid: new CurvedSVG(master, 'battery', 'grid', "#000", 'left', 'bottom'),
     batteryToHome: new CurvedSVG(master, 'battery', 'home', "#000", 'right', 'bottom'),
   }
-  console.log("Init", self.ctx.settings)
 }
 
 self.onDataUpdated = function () {
   self.ctx.detectChanges()
-  console.log("Update", self.ctx.settings)
-  updateDatapointsColor(self.ctx)
-  updateInnerColors(self.ctx)
+  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updater.update();
   resizer.resize();
   updateSVGs(self.ctx);
@@ -107,14 +108,14 @@ self.onResize = function () {
     self.ctx.$container.width(breakpoint).height(breakpoint) // Force minimum size
   }
   resizer.resize();
-  updateDatapointsColor(self.ctx)
-  updateInnerColors(self.ctx)
+  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updateSVGs(self.ctx);
 }
 
 self.onEditModeChanged = function () {
-  updateDatapointsColor(self.ctx)
-  updateInnerColors(self.ctx)
+  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updater.update();
   resizer.resize();
   updateSVGs(self.ctx);
