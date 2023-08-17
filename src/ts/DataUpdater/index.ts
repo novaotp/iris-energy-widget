@@ -33,6 +33,7 @@ export default class DataUpdater {
   /** Handle carbon datapoint edge case */
   private handleCarbonDatapoint(): void {
     const data: DatasourceData = this.datapoints.APPENE.getData();
+    data.data[0][1] = data.data[0][1] * 0.8 // Set the carbon value to 80% of the apparent energy value
     this.datapoints.CARBON.enable(data);
   }
 
