@@ -97,38 +97,6 @@
 
 /* CIRCLES END */
 
-/* BORDER COLOR START */
-
-.home {
-    border-color: black;
-}
-
-.grid {
-    border-color: rgb(35, 35, 255);
-}
-
-.carbon {
-    border-color: green;
-}
-
-.solar {
-    border-color: rgb(255, 199, 96);
-}
-
-.gas {
-    border-color: brown;
-}
-
-.water {
-    border-color: rgb(127, 199, 223);
-}
-
-.battery {
-    border-color: grey;
-}
-
-/* BORDER COLOR END */
-
 /* USAGE START */
 
 .usage {
@@ -167,26 +135,6 @@
 .imported {
     display: flex;
     align-items: center;
-}
-
-.exported-usage, .exported-wrapper svg {
-    color: rgb(35, 35, 255);
-    fill: rgb(35, 35, 255);
-}
-
-.imported-usage, .imported-wrapper svg {
-    color: rgb(100, 100, 255);
-    fill: rgb(100, 100, 255);
-}
-
-.charging-usage, .charging-wrapper svg {
-    color: grey;
-    fill: grey;
-}
-
-.discharging-usage, .discharging-wrapper svg {
-    color: rgb(180, 180, 180);
-    fill: rgb(180, 180, 180);
 }
 
 /* MULTIPLE DATAPOINTS PER ENERGY SOURCE SPECIAL CSS END */

@@ -1,0 +1,204 @@
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "svgPathsColor": {
+        "type": "object",
+        "properties": {
+          "carbonToGrid": {
+            "type": "string",
+            "title": "SVG Path : Carbon to grid color picker",
+            "default": "rgb(0, 128, 0)"
+          },
+          "gridToHome": {
+            "type": "string",
+            "title": "SVG Path : Grid to home color picker",
+            "default": "rgb(100, 100, 255)"
+          },
+          "solarToGrid": {
+            "type": "string",
+            "title": "SVG Path : Solar to grid color picker",
+            "default": "rgb(0, 0, 255)"
+          },
+          "solarToHome": {
+            "type": "string",
+            "title": "SVG Path : Solar to home color picker",
+            "default": "rgb(255, 165, 0)"
+          },
+          "solarToBattery": {
+            "type": "string",
+            "title": "SVG Path : Solar to battery color picker",
+            "default": "rgb(128, 128, 128)"
+          },
+          "batteryToGrid": {
+            "type": "string",
+            "title": "SVG Path : Battery to grid color picker",
+            "default": "rgb(180, 180, 180)"
+          },
+          "batteryToHome": {
+            "type": "string",
+            "title": "SVG Path : Battery to home color picker",
+            "default": "rgb(211, 211, 211)"
+          },
+          "gasToHome": {
+            "type": "string",
+            "title": "SVG Path : Gas to home color picker",
+            "default": "rgb(165, 42, 42)"
+          },
+          "waterToHome": {
+            "type": "string",
+            "title": "SVG Path : Water to home color picker",
+            "default": "rgb(127, 199, 223)"
+          }
+        }
+      },
+      "circleBorderColor": {
+        "type": "object",
+        "properties": {
+          "carbon": {
+            "type": "string",
+            "title": "Circle border color : Carbon color picker",
+            "default": "rgb(0, 128, 0)"
+          },
+          "solar": {
+            "type": "string",
+            "title": "Circle border color : Solar color picker",
+            "default": "rgb(255, 165, 0)"
+          },
+          "gas": {
+            "type": "string",
+            "title": "Circle border color : Gas color picker",
+            "default": "rgb(165, 42, 42)"
+          },
+          "grid": {
+            "type": "string",
+            "title": "Circle border color : Grid color picker",
+            "default": "rgb(0, 0, 255)"
+          },
+          "home": {
+            "type": "string",
+            "title": "Circle border color : Home color picker",
+            "default": "rgb(0, 0, 0)"
+          },
+          "battery": {
+            "type": "string",
+            "title": "Circle border color : Battery color picker",
+            "default": "rgb(128, 128, 128)"
+          },
+          "water": {
+            "type": "string",
+            "title": "Circle border color : Water color picker",
+            "default": "rgb(127, 199, 223)"
+          }
+        }
+      },
+      "specialInnerColor": {
+        "type": "object",
+        "properties": {
+          "ENERGYIMP": {
+            "type": "string",
+            "title": "Special inner color : ENERGYIMP color picker",
+            "default": "rgb(100, 100, 255)"
+          },
+          "ENERGYEXP": {
+            "type": "string",
+            "title": "Special inner color : ENERGYEXP color picker",
+            "default": "rgb(0, 0, 255)"
+          },
+          "ENRBATTCHRG": {
+            "type": "string",
+            "title": "Special inner color : ENRBATTCHRG color picker",
+            "default": "rgb(128, 128, 128)"
+          },
+          "ENRBATTDISCH": {
+            "type": "string",
+            "title": "Special inner color : ENRBATTDISCH color picker",
+            "default": "rgb(180, 180, 180)"
+          }
+        }
+      }
+    }
+  },
+  "form": [
+    {
+      "key": "svgPathsColor.carbonToGrid",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.gridToHome",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.solarToGrid",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.solarToHome",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.solarToBattery",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.batteryToGrid",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.batteryToHome",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.gasToHome",
+      "type": "color"
+    },
+    {
+      "key": "svgPathsColor.waterToHome",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.carbon",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.solar",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.gas",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.grid",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.home",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.battery",
+      "type": "color"
+    },
+    {
+      "key": "circleBorderColor.water",
+      "type": "color"
+    },
+    {
+      "key": "specialInnerColor.ENERGYIMP",
+      "type": "color"
+    },
+    {
+      "key": "specialInnerColor.ENERGYEXP",
+      "type": "color"
+    },
+    {
+      "key": "specialInnerColor.ENRBATTCHRG",
+      "type": "color"
+    },
+    {
+      "key": "specialInnerColor.ENRBATTDISCH",
+      "type": "color"
+    }
+  ]
+}

@@ -1,18 +1,64 @@
 import DataPoint from './ts/DataPoint';
 import GenericResizer from './ts/GenericResizer';
 import DataUpdater from './ts/DataUpdater';
-import { Label } from './types';
+import { Label, SVGLabel } from './types';
 import SVG from './ts/SVG';
 import StraightSVG from './ts/SVG/StraightSVG';
 import CurvedSVG from './ts/SVG/CurvedSVG';
+import WidgetContext, { CircleBorderColor } from './interfaces';
 
 let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
 let resizer: GenericResizer;
-let svgs: Array<SVG>;
-let updateSVGs = (): void => {
-  svgs.forEach(svg => svg.update())
+let svgs: Record<SVGLabel, SVG>;
+let updateSVGs = (ctx: WidgetContext): void => {
+  for (const [label, svg] of Object.entries(svgs)) {
+    svg.setNewColor(ctx.settings.svgPathsColor?.[label as SVGLabel] ?? '#000');
+    svg.update();
+  }
 };
+let updateDatapointsColor = (ctx: WidgetContext): void => {
+  let colorLabel: string;
+  for (const [label, dataPoint] of Object.entries(datapoints)) {
+    switch (label as Label) {
+      case "APPENE":
+        colorLabel = "home" as SVGLabel;
+        break;
+      case "CARBON":
+        colorLabel = "carbon" as SVGLabel;
+        break;
+      case "ENERGYEXP":
+      case "ENERGYIMP":
+        colorLabel = "grid" as SVGLabel;
+        break;
+      case "GAS":
+        colorLabel = "gas" as SVGLabel;
+        break;
+      case "WATER":
+        colorLabel = "water" as SVGLabel;
+        break;
+      case "ENRTOTPROD":
+        colorLabel = "solar" as SVGLabel;
+        break;
+      case "ENRBATTCHRG":
+      case "BATTPERCENT":
+      case "ENRBATTDISCH":
+        colorLabel = "battery" as SVGLabel;
+        break;
+      default:
+        throw Error("Unknown label");
+    }
+
+    dataPoint.setBorderColor(ctx.settings.circleBorderColor?.[colorLabel as CircleBorderColor] ?? '#000')
+  }
+}
+let updateInnerColors = (ctx: WidgetContext): void => {
+  const master = ctx.$container.find('.master');
+  master.find('.exported-wrapper').find('.inner-icon, .usage').css("color", ctx.settings.specialInnerColor?.ENERGYEXP ?? '#000').css("fill", ctx.settings.specialInnerColor?.ENERGYEXP ?? '#000');
+  master.find('.imported-wrapper').find('.inner-icon, .usage').css("color", ctx.settings.specialInnerColor?.ENERGYIMP ?? '#000').css("fill", ctx.settings.specialInnerColor?.ENERGYIMP ?? '#000');
+  master.find('.charging-wrapper').find('.inner-icon, .usage').css("color", ctx.settings.specialInnerColor?.ENRBATTCHRG ?? '#000').css("fill", ctx.settings.specialInnerColor?.ENRBATTCHRG ?? '#000');
+  master.find('.discharging-wrapper').find('.inner-icon, .usage').css("color", ctx.settings.specialInnerColor?.ENRBATTDISCH ?? '#000').css("fill", ctx.settings.specialInnerColor?.ENRBATTDISCH ?? '#000');
+}
 
 self.onInit = function () {
   if (self.ctx === undefined) return;
@@ -31,37 +77,45 @@ self.onInit = function () {
   updater = new DataUpdater(self.ctx, datapoints);
   resizer = new GenericResizer(self.ctx, datapoints);
   const master = self.ctx.$container.find('.master');
-  svgs = [
-    new StraightSVG(master, 'grid', 'home', "rgb(100, 100, 255)"),
-    new StraightSVG(master, 'carbon', 'grid', "green"),
-    new StraightSVG(master, 'solar', 'battery', "grey"),
-    new StraightSVG(master, 'water', 'home', "lightblue"),
-    new StraightSVG(master, 'gas', 'home', "brown"),
-    new CurvedSVG(master, 'solar', 'grid', 'blue', 'left', 'top'),
-    new CurvedSVG(master, 'solar', 'home', 'orange', 'right', 'top'),
-    new CurvedSVG(master, 'battery', 'grid', 'rgb(180, 180, 180)', 'left', 'bottom'),
-    new CurvedSVG(master, 'battery', 'home', 'lightgrey', 'right', 'bottom'),
-  ]
+  svgs = {
+    gridToHome: new StraightSVG(master, 'grid', 'home', "#000"), // Added default color to all
+    carbonToGrid: new StraightSVG(master, 'carbon', 'grid', "#000"),
+    solarToBattery: new StraightSVG(master, 'solar', 'battery', "#000"),
+    waterToHome: new StraightSVG(master, 'water', 'home', "#000"),
+    gasToHome: new StraightSVG(master, 'gas', 'home', "#000"),
+    solarToGrid: new CurvedSVG(master, 'solar', 'grid', "#000", 'left', 'top'),
+    solarToHome: new CurvedSVG(master, 'solar', 'home', "#000", 'right', 'top'),
+    batteryToGrid: new CurvedSVG(master, 'battery', 'grid', "#000", 'left', 'bottom'),
+    batteryToHome: new CurvedSVG(master, 'battery', 'home', "#000", 'right', 'bottom'),
+  }
+  console.log("Init", self.ctx.settings)
 }
 
 self.onDataUpdated = function () {
   self.ctx.detectChanges()
+  console.log("Update", self.ctx.settings)
+  updateDatapointsColor(self.ctx)
+  updateInnerColors(self.ctx)
   updater.update();
   resizer.resize();
-  updateSVGs();
+  updateSVGs(self.ctx);
 }
 
 self.onResize = function () {
   const breakpoint = 350
   if (self.ctx.$container.width()! < breakpoint || self.ctx.$container.height()! < breakpoint) {
-    self.ctx.$container.width(breakpoint).height(breakpoint)
+    self.ctx.$container.width(breakpoint).height(breakpoint) // Force minimum size
   }
   resizer.resize();
-  updateSVGs();
+  updateDatapointsColor(self.ctx)
+  updateInnerColors(self.ctx)
+  updateSVGs(self.ctx);
 }
 
 self.onEditModeChanged = function () {
+  updateDatapointsColor(self.ctx)
+  updateInnerColors(self.ctx)
   updater.update();
   resizer.resize();
-  updateSVGs();
+  updateSVGs(self.ctx);
 }

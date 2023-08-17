@@ -73,6 +73,10 @@ export default abstract class SVG {
     this.show();
   }
 
+  public setNewColor(color: string): void {
+    this.color = color;
+  }
+
   /**
    * Checks if the master wrapper's size is under a
    * certain breakpoint.

@@ -10,3 +10,5 @@ export type TOffsetDirection = 'top' | 'bottom' | 'left' | 'right';
  * The syntax in the HTML classname is : .{classname}-wrapper
  */
 export type TWrapper = 'carbon' | 'solar' | 'gas' | 'grid' | 'home' | 'battery' | 'water';
+
+export type SVGLabel = "carbonToGrid" | "gridToHome" | "solarToBattery" | "gasToHome" | "waterToHome" | "solarToGrid" | "solarToHome" | "batteryToGrid" | "batteryToHome";

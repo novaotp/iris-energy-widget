@@ -29,6 +29,10 @@ export default class DataPoint {
     return this.dataHandler.data!;
   }
 
+  public setBorderColor(color: string): void {
+    this.renderer.setColor(color)
+  }
+
   /**
    * Enables the datapoint with the given data
    * @param newData The latest data

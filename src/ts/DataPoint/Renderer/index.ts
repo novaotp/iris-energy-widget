@@ -50,6 +50,14 @@ export default class Renderer {
     }
   }
 
+  public setColor(color: string) {
+    if (this.superWrapper) {
+      this.superWrapper.find('.circle').css("border-color", color);
+    } else {
+      this.wrapper.find('.circle').css("border-color", color);
+    }
+  }
+
   /** Hides the data from the screen */
   public hideAll(): void {
     this.hideData()
