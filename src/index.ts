@@ -5,7 +5,7 @@ import { Label, SVGLabel } from './types';
 import SVG from './ts/SVG';
 import StraightSVG from './ts/SVG/StraightSVG';
 import CurvedSVG from './ts/SVG/CurvedSVG';
-import WidgetContext, { CircleBorderColor } from './interfaces';
+import WidgetContext, { CircleBorderColor, HTMLIcon, IconColor } from './interfaces';
 import './style.css'
 
 let updater: DataUpdater;
@@ -19,40 +19,50 @@ let updateSVGs = (ctx: WidgetContext): void => {
     svg.update();
   }
 };
-/** Function to update the Datapoints' color. Should be moved elsewhere later. */
-let updateDatapointsColor = (ctx: WidgetContext): void => {
-  let colorLabel: string;
+/** Function to update the Datapoints' color, html icons and icon colors. Should be moved elsewhere later. */
+let updateDatapointsAdvancedSettings = (ctx: WidgetContext): void => {
+  let dpLabel: string;
+  let defaultIcon: string;
   for (const [label, dataPoint] of Object.entries(datapoints)) {
     switch (label as Label) {
       case "APPENE":
-        colorLabel = "home" as SVGLabel;
+        dpLabel = "home";
+        defaultIcon = "<i class='fa-solid fa-house'></i>";
         break;
       case "CARBON":
-        colorLabel = "carbon" as SVGLabel;
+        dpLabel = "carbon";
+        defaultIcon = "<i class='fa-solid fa-leaf'></i>";
         break;
       case "ENERGYEXP":
       case "ENERGYIMP":
-        colorLabel = "grid" as SVGLabel;
+        dpLabel = "grid";
+        defaultIcon = "<i class='fa-solid fa-bolt-lightning'></i>";
         break;
       case "GAS":
-        colorLabel = "gas" as SVGLabel;
+        dpLabel = "gas";
+        defaultIcon = "<i class='fa-solid fa-fire'></i>";
         break;
       case "WATER":
-        colorLabel = "water" as SVGLabel;
+        dpLabel = "water";
+        defaultIcon = "<i class='fa-solid fa-droplet'></i>";
         break;
       case "ENRTOTPROD":
-        colorLabel = "solar" as SVGLabel;
+        dpLabel = "solar";
+        defaultIcon = "<i class='fa-solid fa-solar-panel'></i>";
         break;
       case "ENRBATTCHRG":
       case "BATTPERCENT":
       case "ENRBATTDISCH":
-        colorLabel = "battery" as SVGLabel;
+        dpLabel = "battery";
+        defaultIcon = "<i class='fa-solid fa-battery-half'></i>";
         break;
       default:
         throw Error("Unknown label");
     }
 
-    dataPoint.setBorderColor(ctx.settings.circleBorderColor?.[colorLabel as CircleBorderColor] ?? '#000')
+    dataPoint.setBorderColor(ctx.settings.circleBorderColor?.[dpLabel as CircleBorderColor] ?? '#000')
+    dataPoint.setBorderColor(ctx.settings.iconHTML?.[dpLabel as HTMLIcon] ?? defaultIcon)
+    dataPoint.setBorderColor(ctx.settings.iconColor?.[dpLabel as IconColor] ?? '#000')
   }
 }
 /** Function to update the Datapoints' inner colors if they have a superWrapper. Should be moved elsewhere later. */
@@ -96,7 +106,9 @@ self.onInit = function () {
 
 self.onDataUpdated = function () {
   self.ctx.detectChanges()
-  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  console.log("Color", self.ctx.settings.iconColor)
+  console.log("HTML", self.ctx.settings.iconHTML)
+  updateDatapointsAdvancedSettings(self.ctx) // Multiple calls, is it necessary ?
   updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updater.update();
   resizer.resize();
@@ -109,13 +121,13 @@ self.onResize = function () {
     self.ctx.$container.width(breakpoint).height(breakpoint) // Force minimum size
   }
   resizer.resize();
-  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  updateDatapointsAdvancedSettings(self.ctx) // Multiple calls, is it necessary ?
   updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updateSVGs(self.ctx);
 }
 
 self.onEditModeChanged = function () {
-  updateDatapointsColor(self.ctx) // Multiple calls, is it necessary ?
+  updateDatapointsAdvancedSettings(self.ctx) // Multiple calls, is it necessary ?
   updateInnerColors(self.ctx) // Multiple calls, is it necessary ?
   updater.update();
   resizer.resize();

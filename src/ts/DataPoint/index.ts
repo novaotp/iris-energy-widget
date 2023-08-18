@@ -39,6 +39,22 @@ export default class DataPoint {
   }
 
   /**
+   * A high level function to set the html icon
+   * @param color The new html icon
+   */
+  public setHTMLIcon(html: string): void {
+    this.renderer.setHTMLIcon(html)
+  }
+
+  /**
+   * A high level function to set the icon color
+   * @param color The new icon color
+   */
+  public setIconColor(color: string): void {
+    this.renderer.setIconColor(color)
+  }
+
+  /**
    * Enables the datapoint with the given data
    * @param newData The latest data
    */

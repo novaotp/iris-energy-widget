@@ -116,6 +116,87 @@
             "default": "rgb(180, 180, 180)"
           }
         }
+      },
+      "iconHTML": {
+        "type": "object",
+        "title": "HTML Icons",
+        "properties": {
+          "carbon": {
+            "type": "string",
+            "title": "Carbon Icon",
+            "default": "<i class='fa-solid fa-leaf'></i>"
+          },
+          "solar": {
+            "type": "string",
+            "title": "Solar Icon",
+            "default": "<i class='fa-solid fa-solar-panel'></i>"
+          },
+          "gas": {
+            "type": "string",
+            "title": "Gas Icon",
+            "default": "<i class='fa-solid fa-fire'></i>"
+          },
+          "grid": {
+            "type": "string",
+            "title": "Grid Icon",
+            "default": "<i class='fa-solid fa-bolt-lightning'></i>"
+          },
+          "home": {
+            "type": "string",
+            "title": "Home Icon",
+            "default": "<i class='fa-solid fa-house'></i>"
+          },
+          "battery": {
+            "type": "string",
+            "title": "Battery Icon",
+            "default": "<i class='fa-solid fa-battery-half'></i>"
+          },
+          "water": {
+            "type": "string",
+            "title": "Water Icon",
+            "default": "<i class='fa-solid fa-droplet'></i>"
+          }
+        }
+      },
+      "iconColor": {
+        "type": "object",
+        "properties": {
+          "carbon": {
+            "type": "string",
+            "title": "Carbon Color",
+            "default": "rgb(0, 128, 0)"
+          },
+          "solar": {
+            "type": "string",
+            "title": "Solar Color",
+            "default": "rgb(0, 0, 0)"
+          },
+          "gas": {
+            "type": "string",
+            "title": "Gas Color",
+            "default": "rgb(0, 0, 0)"
+          },
+          "grid": {
+            "type": "string",
+            "title": "Grid Color",
+            "default": "rgb(0, 0, 0)"
+          },
+          "home": {
+            "type": "string",
+            "title": "Home Color",
+            "default": "rgb(0, 0, 0)"
+          },
+          "battery": {
+            "type": "string",
+            "title": "Battery Color",
+            "default": "rgb(0, 0, 0)"
+          },
+          "water": {
+            "type": "string",
+            "title": "Water Color",
+            "default": "rgb(0, 0, 0)"
+          }
+        }
       }
     }
   },
@@ -217,6 +298,42 @@
         },
         {
           "key": "specialInnerColor.ENRBATTDISCH",
+          "type": "color"
+        }
+      ]
+    },
+    "iconHTML",
+    {
+      "key": "iconColor",
+      "type": "fieldset",
+      "title": "Icon Color Settings",
+      "items": [
+        {
+          "key": "iconColor.carbon",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.solar",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.gas",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.grid",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.home",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.battery",
+          "type": "color"
+        },
+        {
+          "key": "iconColor.water",
           "type": "color"
         }
       ]

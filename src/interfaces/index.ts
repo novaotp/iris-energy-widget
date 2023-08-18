@@ -26,9 +26,11 @@ interface svgPathsColor {
   batteryToHome: string;
 }
 
-export type CircleBorderColor = keyof circleBorderColor;
+export type CircleBorderColor = keyof GenericWrapper;
+export type HTMLIcon = keyof GenericWrapper;
+export type IconColor = keyof GenericWrapper;
 
-interface circleBorderColor {
+interface GenericWrapper {
   carbon: string;
   solar: string;
   gas: string;
@@ -47,8 +49,10 @@ interface specialInnerColor {
 
 interface WidgetSettings {
   svgPathsColor?: svgPathsColor;
-  circleBorderColor?: circleBorderColor;
+  circleBorderColor?: GenericWrapper;
   specialInnerColor?: specialInnerColor;
+  iconColor?: GenericWrapper;
+  iconHTML?: GenericWrapper;
 }
 
 export default interface WidgetContext {

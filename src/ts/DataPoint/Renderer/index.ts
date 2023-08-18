@@ -60,6 +60,25 @@ export default class Renderer {
     }
   }
 
+  /** Sets the html icon of the wrapper/superWrapper */
+  public setHTMLIcon(html: string) {
+    console.log(this.wrapper, html);
+    if (this.superWrapper) {
+      this.superWrapper.find('.icon').html(html);
+    } else {
+      this.wrapper.find('.icon').html(html);
+    }
+  }
+
+  /** Sets the icon color of the wrapper/superWrapper */
+  public setIconColor(color: string) {
+    if (this.superWrapper) {
+      this.superWrapper.find('.icon i').css("fill", color);
+    } else {
+      this.wrapper.find('.icon i').css("fill", color);
+    }
+  }
+
   /** Hides the data from the screen */
   public hideAll(): void {
     this.hideData()
