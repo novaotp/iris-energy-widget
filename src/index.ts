@@ -6,6 +6,7 @@ import SVG from './ts/SVG';
 import StraightSVG from './ts/SVG/StraightSVG';
 import CurvedSVG from './ts/SVG/CurvedSVG';
 import WidgetContext, { CircleBorderColor } from './interfaces';
+import './style.css'
 
 let updater: DataUpdater;
 let datapoints: Record<Label, DataPoint>;
