@@ -114,12 +114,7 @@
     display: none;
     justify-content: center;
     align-items: center;
-    fill: var(--icon-fill-color);
     margin: 4px 0;
-}
-
-.carbon .icon {
-    fill: green;
 }
 
 /* MAIN ICONS END */
