@@ -5,7 +5,7 @@ import { Label } from "../../types";
 
 /**
  * The class responsible for overall responsiveness.
- * For the wrappers' displaying, look into the
+ * For the wrappers' rendering, look into the
  * Datapoint's {@link Renderer} class.
  */
 export default class GenericResizer {
@@ -25,6 +25,7 @@ export default class GenericResizer {
   private row3: JQuery<HTMLElement>;
 
   /**
+   * Initializes a new instance of the GenericResizer class.
    * @param ctx The widget context
    * @param datapoints The datapoints
    */

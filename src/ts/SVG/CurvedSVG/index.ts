@@ -43,6 +43,7 @@ export default class CurvedSVG extends SVG {
     }
   }
 
+  /** Generates a curved path */
   protected generatePathData(): string {
     const offset = this.isMasterSizeUnderBreakpoint() ? 10 : 20;
 

@@ -15,6 +15,7 @@ export default class StraightSVG extends SVG {
     super(master, from, to, color);
   }
 
+  /** Generates a straight path */
   protected generatePathData(): string {
     const from: Coordinates = this.from.getCenterCoordinates();
     const to: Coordinates = this.to.getCenterCoordinates();
