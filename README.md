@@ -11,6 +11,7 @@ Includes :
   - Up to 9 different animations
   - Automatic resizing capabilities
   - Automatic data updating capabilities using real-time data
+  - Client-side customization capabilities
 
 ## Code
 
