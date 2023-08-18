@@ -52,11 +52,11 @@ module.exports = {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          compress: {
+          /* compress: {
             drop_console: true,
             drop_debugger: true,
             pure_funcs: ['console.log'],
-          },
+          }, */
           mangle: {},
           output: {
             comments: false,

@@ -34,15 +34,19 @@ export default class DataUpdater {
   /** Handle carbon datapoint edge case */
   private handleCarbonDatapoint(): void {
     const data: DatasourceData = this.datapoints.APPENE.getData();
-    data.data[0][1] = data.data[0][1] * 0.8 // Set the carbon value to 80% of the apparent energy value
-    this.datapoints.CARBON.enable(data);
+    if (data) {
+      data.data[0][1] = data.data[0][1] * 0.8 // Set the carbon value to 80% of the apparent energy value
+      this.datapoints.CARBON.enable(data);
+    }
   }
 
   /** Handle empty ENERGYIMP edge case */
   private handleENERGYIMPDatapoint(): void {
     if (this.datapoints.ENERGYIMP.isDataEmpty()) {
       const data: DatasourceData = this.datapoints.APPENE.getData();
-      this.datapoints.ENERGYIMP.enable(data);
+      if (data) {
+        this.datapoints.ENERGYIMP.enable(data);
+      }
     }
   }
 
@@ -52,19 +56,21 @@ export default class DataUpdater {
 
     const contextData: DatasourceData[] = this.getContextData();
 
-    for (const data of contextData) {
-      const label = getLabelFromData(data);
+    if (contextData) {
+      for (const data of contextData) {
+        const label = getLabelFromData(data);
 
-      if (!this.datapoints[label]) {
-        console.log("INVALID LABEL FOUND", label);
-        continue
+        if (!this.datapoints[label]) {
+          console.log("INVALID LABEL FOUND", label);
+          continue
+        }
+
+        this.datapoints[label].enable(data);
       }
 
-      this.datapoints[label].enable(data);
+      this.handleCarbonDatapoint();
+      this.handleENERGYIMPDatapoint();
     }
-
-    this.handleCarbonDatapoint();
-    this.handleENERGYIMPDatapoint();
   }
 
   /** The main function */
