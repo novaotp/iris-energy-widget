@@ -23,7 +23,7 @@ The development scripts are in the ```src``` folder.
 1. Fork the repo
 2. Run ```npm i``` to install the dependencies.
 3. Run ```npm run build```, a ```.dist``` folder will be generated.
-4. Use the ```.dist/bundle.js``` for the minified javascript file, ```src/template.html``` for the html, ```src/style.css``` for the css and ```src/settings-schema.json``` for settings schema.
+4. Use the files in the ```.dist/``` folder for Thingsboard.
 
 ## Authors / Aknowledgments
 
