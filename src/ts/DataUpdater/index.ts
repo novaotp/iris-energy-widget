@@ -56,21 +56,19 @@ export default class DataUpdater {
 
     const contextData: DatasourceData[] = this.getContextData();
 
-    if (contextData) {
-      for (const data of contextData) {
-        const label = getLabelFromData(data);
+    for (const data of contextData) {
+      const label = getLabelFromData(data);
 
-        if (!this.datapoints[label]) {
-          console.log("INVALID LABEL FOUND", label);
-          continue
-        }
-
-        this.datapoints[label].enable(data);
+      if (!this.datapoints[label]) {
+        console.warn("INVALID LABEL FOUND", label);
+        continue
       }
 
-      this.handleCarbonDatapoint();
-      this.handleENERGYIMPDatapoint();
+      this.datapoints[label].enable(data);
     }
+
+    this.handleCarbonDatapoint();
+    this.handleENERGYIMPDatapoint();
   }
 
   /** The main function */
