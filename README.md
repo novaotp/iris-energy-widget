@@ -32,7 +32,7 @@ The project author is : Sajidur Rahman.
 
 ## Status
 
-Project status : Stable version
+Project status : Stable version | Set to read-only
 
 ## Documentation
 
